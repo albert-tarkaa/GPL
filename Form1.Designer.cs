@@ -50,6 +50,7 @@
             richTextBox1.Size = new Size(479, 273);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
+            richTextBox1.UseWaitCursor = true;
             // 
             // textBox1
             // 
