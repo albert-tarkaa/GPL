@@ -34,7 +34,9 @@
             button2 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel1 = new Panel();
+            pictureBox1 = new PictureBox();
             flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // richTextBox1
@@ -98,11 +100,22 @@
             panel1.TabIndex = 5;
             panel1.Paint += panel1_Paint;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Location = new Point(12, 343);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(776, 206);
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 576);
+            Controls.Add(pictureBox1);
             Controls.Add(panel1);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(richTextBox1);
@@ -110,6 +123,7 @@
             Text = "Simple Programming Language";
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -121,5 +135,6 @@
         private Button button2;
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel panel1;
+        private PictureBox pictureBox1;
     }
 }
