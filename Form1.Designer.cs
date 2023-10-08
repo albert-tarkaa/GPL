@@ -41,9 +41,12 @@
             // 
             // richTextBox1
             // 
+            richTextBox1.AcceptsTab = true;
             richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.Font = new Font("Trebuchet MS", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
             richTextBox1.Location = new Point(12, 12);
             richTextBox1.Name = "richTextBox1";
+            richTextBox1.ScrollBars = RichTextBoxScrollBars.Vertical;
             richTextBox1.Size = new Size(479, 273);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
@@ -52,7 +55,7 @@
             // 
             textBox1.Location = new Point(3, 3);
             textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "text";
+            textBox1.PlaceholderText = "command line";
             textBox1.Size = new Size(310, 23);
             textBox1.TabIndex = 1;
             // 
