@@ -42,7 +42,7 @@ This README document provides an overview of the Graphical Programming Language 
 ## Basic Drawing Commands<a name="basic-drawing-commands"></a>
 
 5. Basic drawing commands are case insensitive and include:
-   - Each command should is considered functional if:
+   - Each command is considered functional if:
        - at least one commit with good description
        - full XML documentation
        - a Unit Test
