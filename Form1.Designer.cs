@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            richTextBox1 = new RichTextBox();
+            GPLParser = new RichTextBox();
             textBox1 = new TextBox();
-            button1 = new Button();
+            btnRun = new Button();
             button2 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panel1 = new Panel();
@@ -39,18 +39,18 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // richTextBox1
+            // GPLParser
             // 
-            richTextBox1.AcceptsTab = true;
-            richTextBox1.BorderStyle = BorderStyle.None;
-            richTextBox1.Font = new Font("Trebuchet MS", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            richTextBox1.Location = new Point(12, 12);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.ScrollBars = RichTextBoxScrollBars.Vertical;
-            richTextBox1.Size = new Size(479, 273);
-            richTextBox1.TabIndex = 0;
-            richTextBox1.Text = "";
-            richTextBox1.UseWaitCursor = true;
+            GPLParser.AcceptsTab = true;
+            GPLParser.BorderStyle = BorderStyle.None;
+            GPLParser.Font = new Font("Trebuchet MS", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            GPLParser.Location = new Point(12, 12);
+            GPLParser.Name = "GPLParser";
+            GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
+            GPLParser.Size = new Size(479, 273);
+            GPLParser.TabIndex = 0;
+            GPLParser.Text = "";
+            GPLParser.UseWaitCursor = true;
             // 
             // textBox1
             // 
@@ -60,18 +60,18 @@
             textBox1.Size = new Size(310, 23);
             textBox1.TabIndex = 1;
             // 
-            // button1
+            // btnRun
             // 
-            button1.BackColor = SystemColors.HotTrack;
-            button1.FlatAppearance.BorderColor = SystemColors.HotTrack;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.ForeColor = SystemColors.Window;
-            button1.Location = new Point(319, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Run";
-            button1.UseVisualStyleBackColor = false;
+            btnRun.BackColor = SystemColors.HotTrack;
+            btnRun.FlatAppearance.BorderColor = SystemColors.HotTrack;
+            btnRun.FlatStyle = FlatStyle.Popup;
+            btnRun.ForeColor = SystemColors.Window;
+            btnRun.Location = new Point(319, 3);
+            btnRun.Name = "btnRun";
+            btnRun.Size = new Size(75, 23);
+            btnRun.TabIndex = 2;
+            btnRun.Text = "Run";
+            btnRun.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
@@ -87,7 +87,7 @@
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(textBox1);
-            flowLayoutPanel1.Controls.Add(button1);
+            flowLayoutPanel1.Controls.Add(btnRun);
             flowLayoutPanel1.Controls.Add(button2);
             flowLayoutPanel1.Location = new Point(12, 291);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -122,7 +122,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(panel1);
             Controls.Add(flowLayoutPanel1);
-            Controls.Add(richTextBox1);
+            Controls.Add(GPLParser);
             Name = "Form1";
             Text = "Simple Programming Language";
             flowLayoutPanel1.ResumeLayout(false);
@@ -133,9 +133,9 @@
 
         #endregion
 
-        private RichTextBox richTextBox1;
+        private RichTextBox GPLParser;
         private TextBox textBox1;
-        private Button button1;
+        private Button btnRun;
         private Button button2;
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel panel1;
