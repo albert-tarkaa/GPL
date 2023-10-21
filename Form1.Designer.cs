@@ -33,7 +33,7 @@
             btnRun = new Button();
             button2 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            panel1 = new Panel();
+            GPLPanel = new Panel();
             pictureBox1 = new PictureBox();
             flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -72,6 +72,7 @@
             btnRun.TabIndex = 2;
             btnRun.Text = "Run";
             btnRun.UseVisualStyleBackColor = false;
+            btnRun.Click += BtnRun_Click;
             // 
             // button2
             // 
@@ -94,15 +95,15 @@
             flowLayoutPanel1.Size = new Size(479, 33);
             flowLayoutPanel1.TabIndex = 4;
             // 
-            // panel1
+            // GPLPanel
             // 
-            panel1.BackColor = SystemColors.ControlLight;
-            panel1.Location = new Point(506, 13);
-            panel1.Name = "panel1";
-            panel1.Padding = new Padding(5);
-            panel1.Size = new Size(282, 311);
-            panel1.TabIndex = 5;
-            panel1.Paint += panel1_Paint;
+            GPLPanel.BackColor = SystemColors.ControlLight;
+            GPLPanel.Location = new Point(506, 13);
+            GPLPanel.Name = "GPLPanel";
+            GPLPanel.Padding = new Padding(5);
+            GPLPanel.Size = new Size(282, 311);
+            GPLPanel.TabIndex = 5;
+            GPLPanel.Paint += GPLPanel_Paint;
             // 
             // pictureBox1
             // 
@@ -120,7 +121,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 576);
             Controls.Add(pictureBox1);
-            Controls.Add(panel1);
+            Controls.Add(GPLPanel);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(GPLParser);
             Name = "Form1";
@@ -138,7 +139,7 @@
         private Button btnRun;
         private Button button2;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Panel panel1;
         private PictureBox pictureBox1;
+        public Panel GPLPanel;
     }
 }
