@@ -47,10 +47,11 @@
             GPLParser.Location = new Point(12, 12);
             GPLParser.Name = "GPLParser";
             GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
-            GPLParser.Size = new Size(479, 273);
+            GPLParser.Size = new Size(395, 273);
             GPLParser.TabIndex = 0;
             GPLParser.Text = "";
             GPLParser.UseWaitCursor = true;
+            
             // 
             // textBox1
             // 
@@ -66,7 +67,7 @@
             btnRun.FlatAppearance.BorderColor = SystemColors.HotTrack;
             btnRun.FlatStyle = FlatStyle.Popup;
             btnRun.ForeColor = SystemColors.Window;
-            btnRun.Location = new Point(319, 3);
+            btnRun.Location = new Point(3, 32);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(75, 23);
             btnRun.TabIndex = 2;
@@ -78,7 +79,7 @@
             // 
             button2.BackColor = Color.White;
             button2.FlatStyle = FlatStyle.Popup;
-            button2.Location = new Point(400, 3);
+            button2.Location = new Point(84, 32);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 3;
@@ -92,16 +93,16 @@
             flowLayoutPanel1.Controls.Add(button2);
             flowLayoutPanel1.Location = new Point(12, 291);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(479, 33);
+            flowLayoutPanel1.Size = new Size(395, 62);
             flowLayoutPanel1.TabIndex = 4;
             // 
             // GPLPanel
             // 
             GPLPanel.BackColor = SystemColors.ControlLight;
-            GPLPanel.Location = new Point(506, 13);
+            GPLPanel.Location = new Point(413, 13);
             GPLPanel.Name = "GPLPanel";
             GPLPanel.Padding = new Padding(5);
-            GPLPanel.Size = new Size(282, 311);
+            GPLPanel.Size = new Size(375, 311);
             GPLPanel.TabIndex = 5;
             GPLPanel.Paint += GPLPanel_Paint;
             // 
@@ -109,7 +110,7 @@
             // 
             pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Location = new Point(12, 343);
+            pictureBox1.Location = new Point(15, 369);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(776, 206);
             pictureBox1.TabIndex = 6;
@@ -119,7 +120,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 576);
+            ClientSize = new Size(800, 591);
             Controls.Add(pictureBox1);
             Controls.Add(GPLPanel);
             Controls.Add(flowLayoutPanel1);

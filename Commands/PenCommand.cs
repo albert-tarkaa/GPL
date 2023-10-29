@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPL
+namespace GPL.Commands
 {
-    public class FillCommand
+    public class PenCommand
     {
     }
 }

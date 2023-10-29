@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GPL
+namespace GPL.Commands
 {
-    public class DrawCommand
+    public class CircleCommand
     {
     }
 }
