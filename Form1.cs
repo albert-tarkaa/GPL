@@ -8,6 +8,7 @@ namespace GPL
 
         private CordinatesStateManager globalCordinates;
         private CommandParser CommandParser;
+        private Bitmap canvas;
 
         public Form1()
         {
@@ -16,19 +17,23 @@ namespace GPL
             // Initialize the context and set default coordinates
             CommandParser = new CommandParser();
             globalCordinates = new CordinatesStateManager();
-            globalCordinates.GlobalX = 15;
-            globalCordinates.GlobalY = 15;
+
+            canvas = new Bitmap(GPLPanel.Width, GPLPanel.Height);
+            GPLPanel.Image = canvas;
+            DrawCursor();
 
             // GPLPanel.Invalidate();
         }
 
-
-
         private void BtnRun_Click(object sender, EventArgs e)
         {
-            Color[] shapeColors = { Color.Blue, Color.Red, Color.Green, Color.Orange, Color.Purple };
-            Graphics g = GPLPanel.CreateGraphics();
-            Pen pen = new Pen(Color.Black, 1);
+            //Color[] shapeColors = { Color.Blue, Color.Red, Color.Green, Color.Orange, Color.Purple };
+            //int panelWidth = GPLPanel.Width;
+            //int panelHeight = GPLPanel.Height;
+            //Bitmap bitmap = new Bitmap(panelWidth, panelHeight);
+            //Graphics g = Graphics.FromImage(bitmap);
+
+            //Pen pen = new Pen(Color.Black, 1);
 
             string inputCommands = GPLParser.Text.ToLower();
             string[] commands = inputCommands.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -38,6 +43,8 @@ namespace GPL
                 Match drawToMatch = Regex.Match(commandText, @"drawto\((\d+), (\d+)\)");
                 Match moveToMatch = Regex.Match(commandText, @"moveto\((\d+), (\d+)\)");
                 Match rectMatch = Regex.Match(commandText, @"rect\((\d+), (\d+)\)");
+                Match trigMatch = Regex.Match(commandText, @"trig\((\d+), (\d+)\)");
+                Match circleMatch = Regex.Match(commandText, @"^circle\((\d+)\)$");
 
                 if (drawToMatch.Success)
                 {
@@ -64,37 +71,55 @@ namespace GPL
                     ICommand rectCommand = new RectangleCommand(targetX, targetY, globalCordinates);
                     CommandParser.AddCommand(rectCommand);
                 }
+                else if (trigMatch.Success)
+                {
+                    int targetX = int.Parse(Regex.Match(commandText, @"trig\((\d+), (\d+)\)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(commandText, @"trig\((\d+), (\d+)\)").Groups[2].Value);
+
+                    ICommand triangleCommand = new TriangleCommand(targetX, targetY, globalCordinates);
+                    CommandParser.AddCommand(triangleCommand);
+                }
+                else if (circleMatch.Success)
+                {
+                    int radius = int.Parse(Regex.Match(commandText, @"circle\((\d+)\)").Groups[1].Value);
+
+                    ICommand circleCommand = new CircleCommand(radius, globalCordinates);
+                    CommandParser.AddCommand(circleCommand);
+                }
                 else
                 {
                     MessageBox.Show("Invalid command: " + commandText);
                 }
             }
-            CommandParser.ExecuteCommands(g);
-            pen.Dispose(); // Dispose of the Pen
-            g.Dispose();// Dispose of the Graphics
+
+            using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+            {
+                CommandParser.ExecuteCommands(canvasGraphics);
+            }
 
         }
 
-        private void GPLPanel_Paint(object sender, PaintEventArgs e)
+        //Added for debug purposes
+        private void UpdateCoordinatesLabel(int x, int y)
         {
-            GPLPanel.Controls.Clear();
-            try
-            {
-                Graphics g = e.Graphics;
-                Pen pen = new Pen(Color.Red, 1);
+            label1.Text = $"X: {x}, Y: {y}";
+        }
+        //Added for debug purposes
+        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            UpdateCoordinatesLabel(e.X, e.Y);
+        }
 
-                int x = globalCordinates.GlobalX;
-                int y = globalCordinates.GlobalY;
-                int diameter = 6;
 
-                g.DrawEllipse(pen, x, y, diameter, diameter);
-                pen.Dispose();
-                g.Dispose();
-            }
-            catch (Exception ex)
+
+        private void DrawCursor()
+        {
+            using (Graphics g = Graphics.FromImage(canvas))
             {
-                MessageBox.Show("An error occurred: " + ex.Message);
+                Pen pen = new Pen(Color.Red);
+                g.DrawEllipse(pen, globalCordinates.GlobalX, globalCordinates.GlobalY, 6, 6);
             }
+            GPLPanel.Invalidate();
         }
     }
 }

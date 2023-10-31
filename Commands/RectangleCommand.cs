@@ -15,8 +15,8 @@
 
         public void Execute(Graphics g)
         {
-            Pen pen = new Pen(Color.Black, 2);
-            g.DrawRectangle(pen, stateManager.GlobalY, stateManager.GlobalX, targetX, targetY);
+            Pen pen = new Pen(Color.Black, 1);
+            g.DrawRectangle(pen, stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
         }
     }
 }

@@ -29,14 +29,16 @@
         private void InitializeComponent()
         {
             GPLParser = new RichTextBox();
-            textBox1 = new TextBox();
-            btnRun = new Button();
-            button2 = new Button();
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            GPLPanel = new Panel();
             pictureBox1 = new PictureBox();
-            flowLayoutPanel1.SuspendLayout();
+            GPLPanel = new PictureBox();
+            label1 = new Label();
+            button2 = new Button();
+            btnRun = new Button();
+            textBox1 = new TextBox();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)GPLPanel).BeginInit();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // GPLParser
@@ -47,19 +49,50 @@
             GPLParser.Location = new Point(12, 12);
             GPLParser.Name = "GPLParser";
             GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
-            GPLParser.Size = new Size(395, 273);
+            GPLParser.Size = new Size(427, 324);
             GPLParser.TabIndex = 0;
             GPLParser.Text = "";
             GPLParser.UseWaitCursor = true;
-            
             // 
-            // textBox1
+            // pictureBox1
             // 
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "command line";
-            textBox1.Size = new Size(310, 23);
-            textBox1.TabIndex = 1;
+            pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Location = new Point(26, 410);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(776, 206);
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            // 
+            // GPLPanel
+            // 
+            GPLPanel.BackColor = SystemColors.ControlLight;
+            GPLPanel.Location = new Point(460, 12);
+            GPLPanel.Name = "GPLPanel";
+            GPLPanel.Size = new Size(354, 324);
+            GPLPanel.TabIndex = 7;
+            GPLPanel.TabStop = false;
+            GPLPanel.MouseMove += pictureBox_MouseMove;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(15, 380);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 8;
+            label1.Text = "label1";
+            // 
+            // button2
+            // 
+            button2.BackColor = Color.White;
+            button2.FlatStyle = FlatStyle.Popup;
+            button2.Location = new Point(352, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(75, 23);
+            button2.TabIndex = 3;
+            button2.Text = "Syntax";
+            button2.UseVisualStyleBackColor = false;
             // 
             // btnRun
             // 
@@ -67,7 +100,7 @@
             btnRun.FlatAppearance.BorderColor = SystemColors.HotTrack;
             btnRun.FlatStyle = FlatStyle.Popup;
             btnRun.ForeColor = SystemColors.Window;
-            btnRun.Location = new Point(3, 32);
+            btnRun.Location = new Point(271, 3);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(75, 23);
             btnRun.TabIndex = 2;
@@ -75,72 +108,53 @@
             btnRun.UseVisualStyleBackColor = false;
             btnRun.Click += BtnRun_Click;
             // 
-            // button2
+            // textBox1
             // 
-            button2.BackColor = Color.White;
-            button2.FlatStyle = FlatStyle.Popup;
-            button2.Location = new Point(84, 32);
-            button2.Name = "button2";
-            button2.Size = new Size(75, 23);
-            button2.TabIndex = 3;
-            button2.Text = "Syntax";
-            button2.UseVisualStyleBackColor = false;
+            textBox1.Location = new Point(3, 3);
+            textBox1.Name = "textBox1";
+            textBox1.PlaceholderText = "command line";
+            textBox1.Size = new Size(262, 23);
+            textBox1.TabIndex = 1;
             // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(textBox1);
             flowLayoutPanel1.Controls.Add(btnRun);
             flowLayoutPanel1.Controls.Add(button2);
-            flowLayoutPanel1.Location = new Point(12, 291);
+            flowLayoutPanel1.Location = new Point(12, 342);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(395, 62);
+            flowLayoutPanel1.Size = new Size(442, 32);
             flowLayoutPanel1.TabIndex = 4;
-            // 
-            // GPLPanel
-            // 
-            GPLPanel.BackColor = SystemColors.ControlLight;
-            GPLPanel.Location = new Point(413, 13);
-            GPLPanel.Name = "GPLPanel";
-            GPLPanel.Padding = new Padding(5);
-            GPLPanel.Size = new Size(375, 311);
-            GPLPanel.TabIndex = 5;
-            GPLPanel.Paint += GPLPanel_Paint;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Location = new Point(15, 369);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(776, 206);
-            pictureBox1.TabIndex = 6;
-            pictureBox1.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 591);
-            Controls.Add(pictureBox1);
+            ClientSize = new Size(827, 628);
+            Controls.Add(label1);
             Controls.Add(GPLPanel);
+            Controls.Add(pictureBox1);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(GPLParser);
             Name = "Form1";
             Text = "Simple Programming Language";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)GPLPanel).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private RichTextBox GPLParser;
-        private TextBox textBox1;
-        private Button btnRun;
-        private Button button2;
-        private FlowLayoutPanel flowLayoutPanel1;
         private PictureBox pictureBox1;
-        public Panel GPLPanel;
+        private PictureBox GPLPanel;
+        private Label label1;
+        private Button button2;
+        private Button btnRun;
+        private TextBox textBox1;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
