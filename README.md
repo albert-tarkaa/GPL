@@ -1,4 +1,4 @@
-# GPL - Graphical Programming Language Application README
+# Graphical Programming Language Application - GPL
 
 ## Introduction
 
