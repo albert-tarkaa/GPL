@@ -9,7 +9,6 @@
         {
             targetX = x; //radius
             this.stateManager = cordinatesStateManager;
-
         }
 
         public void Execute(Graphics g)

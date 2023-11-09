@@ -115,6 +115,7 @@
             textBox1.PlaceholderText = "command line";
             textBox1.Size = new Size(262, 23);
             textBox1.TabIndex = 1;
+            textBox1.Enter += textBox1_Enter;
             // 
             // flowLayoutPanel1
             // 
