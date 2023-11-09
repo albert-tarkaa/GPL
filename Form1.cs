@@ -1,5 +1,4 @@
 using GPL.Commands;
-using System.Text.RegularExpressions;
 
 namespace GPL
 {
@@ -9,7 +8,7 @@ namespace GPL
         private CordinatesStateManager globalCordinates;
         private CommandParser CommandParser;
         private Bitmap canvas;
-       
+
         public Form1()
         {
             InitializeComponent();
@@ -20,11 +19,11 @@ namespace GPL
 
             CommandParser = new CommandParser();
             globalCordinates = new CordinatesStateManager(canvas, GPLPanel);
-           
 
-            //DrawCursor();
 
-            GPLPanel.Invalidate();
+           // DrawCursor();
+
+           //GPLPanel.Invalidate();
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
@@ -35,33 +34,50 @@ namespace GPL
             //Bitmap bitmap = new Bitmap(panelWidth, panelHeight);
             //Graphics g = Graphics.FromImage(bitmap);
 
+            GPLPanel.Refresh();
             //Pen pen = new Pen(Color.Black, 1);
-            string commandLine = textBox1.Text.ToLower().Trim();
-            if (!string.IsNullOrEmpty(commandLine))
-            {
+            var clearCommand = new ClearCommand(canvas);
+            CommandParser.AddCommand(clearCommand);
 
-            }
-
-            string inputCommands = GPLParser.Text.ToLower();
+            string inputCommands = GPLParser.Text.ToLower().Trim();
             string[] commands = inputCommands.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-
 
             foreach (string commandText in commands)
             {
                 var commandFactory = new CommandFactory(commandText, GPLPanel, globalCordinates, canvas);
-               
-                if (commandFactory != null)
-                {
-                    CommandParser.AddCommand(commandFactory.CreateCommand());
-                }
+
+                commandFactory.AddCommandFromText(commandText, CommandParser);
             }
             using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
             {
                 CommandParser.ExecuteCommands(canvasGraphics);
             }
-
         }
+
+        private void textBoxParser_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                var clearCommand = new ClearCommand(canvas);
+                using (Graphics g = GPLPanel.CreateGraphics())
+                {
+                    clearCommand.Execute(g);
+                }
+                string inputCommand = textBoxParser.Text.ToLower().Trim();
+                if (!string.IsNullOrEmpty(inputCommand))
+                {
+                    var commandFactory = new CommandFactory(inputCommand, GPLPanel, globalCordinates, canvas);
+                    commandFactory.AddCommandFromText(inputCommand, CommandParser);
+
+                    using (Graphics graphics = GPLPanel.CreateGraphics())
+                    {
+                        graphics.DrawImage(canvas, Point.Empty);
+                        CommandParser.ExecuteCommands(graphics);
+                    }
+                }
+            }
+        }
+
 
         //Added for debug purposes
         private void UpdateCoordinatesLabel(int x, int y)
@@ -74,21 +90,17 @@ namespace GPL
             UpdateCoordinatesLabel(e.X, e.Y);
         }
 
-        private void textBox1_Enter(object sender, EventArgs e)
+
+
+
+        public void DrawCursor()
         {
-
+            using (Graphics g = Graphics.FromImage(canvas))
+            {
+                Pen pen = new Pen(Color.Red);
+                g.DrawEllipse(pen, globalCordinates.GlobalX, globalCordinates.GlobalY, 6, 6);
+            }
+           // GPLPanel.Invalidate();
         }
-
-
-
-        //public void DrawCursor()
-        //{
-        //    using (Graphics g = Graphics.FromImage(canvas))
-        //    {
-        //        Pen pen = new Pen(Color.Red);
-        //        g.DrawEllipse(pen, globalCordinates.GlobalX, globalCordinates.GlobalY, 6, 6);
-        //    }
-        //    GPLPanel.Invalidate();
-        //}
     }
 }

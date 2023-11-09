@@ -34,7 +34,7 @@
             label1 = new Label();
             button2 = new Button();
             btnRun = new Button();
-            textBox1 = new TextBox();
+            textBoxParser = new TextBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GPLPanel).BeginInit();
@@ -108,18 +108,18 @@
             btnRun.UseVisualStyleBackColor = false;
             btnRun.Click += BtnRun_Click;
             // 
-            // textBox1
+            // textBoxParser
             // 
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "command line";
-            textBox1.Size = new Size(262, 23);
-            textBox1.TabIndex = 1;
-            textBox1.Enter += textBox1_Enter;
+            textBoxParser.Location = new Point(3, 3);
+            textBoxParser.Name = "textBoxParser";
+            textBoxParser.PlaceholderText = "command line";
+            textBoxParser.Size = new Size(262, 23);
+            textBoxParser.TabIndex = 1;
+            textBoxParser.KeyDown += textBoxParser_KeyDown;
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Controls.Add(textBox1);
+            flowLayoutPanel1.Controls.Add(textBoxParser);
             flowLayoutPanel1.Controls.Add(btnRun);
             flowLayoutPanel1.Controls.Add(button2);
             flowLayoutPanel1.Location = new Point(12, 342);
@@ -155,7 +155,7 @@
         private Label label1;
         private Button button2;
         private Button btnRun;
-        private TextBox textBox1;
+        private TextBox textBoxParser;
         private FlowLayoutPanel flowLayoutPanel1;
     }
 }
