@@ -4,40 +4,40 @@ namespace GPL.Commands
 {
     public class CommandFactory
     {
-        string commandItem { get; set; }
+        string CommandItem { get; set; }
         public PictureBox GPLPanel { get; }
-        readonly CordinatesStateManager stateManager;
-        public CommandParser CommandParser;
-        public Bitmap canvas;
+        private readonly CordinatesStateManager stateManager;
+        public CommandParser CommandParser { get; }
+        private readonly Bitmap canvas;
 
-        public CommandFactory(string CommandItem, PictureBox gPLPanel, CordinatesStateManager cordinatesStateManager, Bitmap bitmap)
+        public CommandFactory(string commandItem, PictureBox gPLPanel, CordinatesStateManager cordinatesStateManager, Bitmap bitmap)
         {
-            this.commandItem = CommandItem;
+            this.CommandItem = commandItem ?? throw new ArgumentNullException($"'{nameof(CommandItem)}' cannot be null or empty.", nameof(CommandItem));
             CommandParser = new CommandParser();
             this.GPLPanel = gPLPanel;
             this.stateManager = cordinatesStateManager;
             this.canvas = bitmap;
         }
 
-        public ICommand CreateCommand()
+        public ICommand CreateCommand(string CommandItem)
         {
-            if (string.IsNullOrEmpty(commandItem))
+            if (string.IsNullOrEmpty(CommandItem))
             {
-                throw new ArgumentException($"'{nameof(commandItem)}' cannot be null or empty.", nameof(commandItem));
+                throw new ArgumentNullException($"'{nameof(CommandItem)}' cannot be null or empty.", nameof(CommandItem));
             }
 
             try
             {
-                Match drawToMatch = Regex.Match(commandItem, @"drawto\((\d+), (\d+)\)");
-                Match moveToMatch = Regex.Match(commandItem, @"moveto\((\d+), (\d+)\)");
-                Match rectMatch = Regex.Match(commandItem, @"rect\((\d+), (\d+)\)");
-                Match trigMatch = Regex.Match(commandItem, @"trig\((\d+), (\d+)\)");
-                Match circleMatch = Regex.Match(commandItem, @"^circle\((\d+)\)$");
+                Match drawToMatch = Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)");
+                Match moveToMatch = Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)");
+                Match rectMatch = Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)");
+                Match trigMatch = Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)");
+                Match circleMatch = Regex.Match(CommandItem, @"^circle\((\d+)\)$");
 
                 if (drawToMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(commandItem, @"drawto\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(commandItem, @"drawto\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)").Groups[2].Value);
 
                     // ICommand drawToCommand = new DrawTo(targetX, targetY, stateManager);
                     // CommandParser.AddCommand(drawToCommand);
@@ -46,8 +46,8 @@ namespace GPL.Commands
                 else if (moveToMatch.Success)
                 {
                     // Match match = Regex.Match(commandText, @"MoveTo\((\d+), (\d+)\)");
-                    int targetX = int.Parse(Regex.Match(commandItem, @"moveto\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(commandItem, @"moveto\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)").Groups[2].Value);
 
                     //ICommand moveToCommand = new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
                     //CommandParser.AddCommand(moveToCommand);
@@ -56,8 +56,8 @@ namespace GPL.Commands
                 }
                 else if (rectMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(commandItem, @"rect\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(commandItem, @"rect\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)").Groups[2].Value);
 
                     // ICommand rectCommand = new RectangleCommand(targetX, targetY, stateManager);
                     // CommandParser.AddCommand(rectCommand);
@@ -65,8 +65,8 @@ namespace GPL.Commands
                 }
                 else if (trigMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(commandItem, @"trig\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(commandItem, @"trig\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)").Groups[2].Value);
 
                     // ICommand triangleCommand = new TriangleCommand(targetX, targetY, stateManager);
                     // CommandParser.AddCommand(triangleCommand);
@@ -74,7 +74,7 @@ namespace GPL.Commands
                 }
                 else if (circleMatch.Success)
                 {
-                    int radius = int.Parse(Regex.Match(commandItem, @"circle\((\d+)\)").Groups[1].Value);
+                    int radius = int.Parse(Regex.Match(CommandItem, @"circle\((\d+)\)").Groups[1].Value);
 
                     //ICommand circleCommand = new CircleCommand(radius, stateManager);
                     //CommandParser.AddCommand(circleCommand);
@@ -90,6 +90,11 @@ namespace GPL.Commands
             }
         }
 
+        public void AddCommandFromText(string commandText, CommandParser parser)
+        {
+            var command = CreateCommand(commandText);
+            parser.AddCommand(command);
+        }
 
     }
 }

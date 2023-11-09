@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GPL.Commands
+﻿namespace GPL.Commands
 {
-    public class ClearCommand
+    public class ClearCommand : ICommand
     {
-        private Panel panel;
+        Bitmap Bitmap;
 
-        public ClearCommand(Panel panel)
+        public ClearCommand(Bitmap bitmap)
         {
-            this.panel = panel;
+            this.Bitmap = bitmap;
         }
 
-        public void Execute()
+        public void Execute(Graphics g)
         {
-            panel.Invalidate(); // Clear the drawing surface
+            using (g = Graphics.FromImage(Bitmap))
+            {
+                g.Clear(SystemColors.ControlLight);
+            }
         }
     }
 }
