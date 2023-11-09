@@ -17,7 +17,7 @@ namespace GPL
             this.canvas = Canvas; 
             this.pictureBox = PictureBox;
 
-           // DrawCursor(canvas, PictureBox);
+            DrawCursor(canvas);
         }
 
         public void SetCordinates(int x, int y)
@@ -27,46 +27,19 @@ namespace GPL
 
         }
 
-        public void DrawCursor( Bitmap canvas,PictureBox pictureBox)
+        public void DrawCursor( Bitmap canvas)
         {
+            int width = 5;
             using (Graphics g = Graphics.FromImage(canvas))
             {
-                Brush backgroundBrush = new SolidBrush(Color.White); // You can change the color as needed
-                g.FillEllipse(backgroundBrush, GlobalX, GlobalY, 6, 6);
+                Brush backgroundBrush = new SolidBrush(Color.White);
+                g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
 
 
-                Pen pen = new Pen(Color.Red);
-                g.DrawEllipse(pen, GlobalX, GlobalY, 6, 6);
+                backgroundBrush = new SolidBrush(Color.Red);
+                g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
 
-                //pen.Dispose();
             }
-
-            // If needed, trigger a refresh of the PictureBox where the canvas is displayed.
-            // For example, if you're using a PictureBox called "pictureBox," you can use:
-           // pictureBox.Invalidate();
         }
-
-        //public void Cordinates()
-        //{
-
-        //    int panelWidth = panel.Width;
-        //    int panelHeight = panel.Height;
-        //    Bitmap bitmap = new Bitmap(panelWidth, panelHeight);
-
-        //    using (Graphics graphics = Graphics.FromImage(bitmap))
-        //    {
-        //        // Clear the previous drawing
-        //       //  graphics.Clear(Color.Transparent);
-
-        //        int circleDiameter = 6;
-        //        Pen pen = new Pen(Color.Red, 1);
-        //        graphics.DrawEllipse(pen, GlobalX, GlobalY, circleDiameter, circleDiameter);
-        //    }
-
-        //    // Display the updated Bitmap on the panel
-        //    panel.BackgroundImage = bitmap;
-        //    panel.BackgroundImageLayout = ImageLayout.Stretch;
-        //    panel.Invalidate();
-        //}
     }
 }

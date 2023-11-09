@@ -21,8 +21,8 @@ namespace GPL.Commands
         public void Execute(Graphics g)
         {
             stateManager.SetCordinates(targetX, targetY);
-            stateManager.DrawCursor(bitmap,pictureBox);
-           // pictureBox.Invalidate();
+            stateManager.DrawCursor(bitmap);
+            pictureBox.Refresh();
         }
 
        
