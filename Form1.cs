@@ -1,4 +1,5 @@
 using GPL.Commands;
+using GPL.Utilities;
 
 namespace GPL
 {
@@ -21,9 +22,9 @@ namespace GPL
             globalCordinates = new CordinatesStateManager(canvas, GPLPanel);
 
 
-           // DrawCursor();
+            // DrawCursor();
 
-           //GPLPanel.Invalidate();
+            //GPLPanel.Invalidate();
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
@@ -36,7 +37,7 @@ namespace GPL
 
             GPLPanel.Refresh();
             //Pen pen = new Pen(Color.Black, 1);
-            var clearCommand = new ClearCommand(canvas);
+            var clearCommand = new ClearDisplayParser(canvas);
             CommandParser.AddCommand(clearCommand);
 
             string inputCommands = GPLParser.Text.ToLower().Trim();
@@ -58,7 +59,7 @@ namespace GPL
         {
             if (e.KeyCode == Keys.Enter)
             {
-                var clearCommand = new ClearCommand(canvas);
+                var clearCommand = new ClearDisplayParser(canvas);
                 using (Graphics g = GPLPanel.CreateGraphics())
                 {
                     clearCommand.Execute(g);
@@ -100,7 +101,30 @@ namespace GPL
                 Pen pen = new Pen(Color.Red);
                 g.DrawEllipse(pen, globalCordinates.GlobalX, globalCordinates.GlobalY, 6, 6);
             }
-           // GPLPanel.Invalidate();
+            // GPLPanel.Invalidate();
         }
+
+        private void Open_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!FileService.ReadFromFile(GPLParser))
+                {
+                    throw new Exception("An error occurred while loading the file");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while opening the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void Save_Click(object sender, EventArgs e)
+        {
+            FileService.SaveToFile(GPLParser);
+
+        }
+
     }
 }

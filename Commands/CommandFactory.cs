@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using GPL.Utilities;
+using System.Text.RegularExpressions;
 
 namespace GPL.Commands
 {
@@ -28,57 +29,56 @@ namespace GPL.Commands
 
             try
             {
-                Match drawToMatch = Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)");
-                Match moveToMatch = Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)");
-                Match rectMatch = Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)");
-                Match trigMatch = Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)");
-                Match circleMatch = Regex.Match(CommandItem, @"^circle\((\d+)\)$");
+                Match drawToMatch = Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)");
+                Match moveToMatch = Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)");
+                Match rectMatch = Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)");
+                Match trigMatch = Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)");
+                Match circleMatch = Regex.Match(CommandItem, @"^circle\s(\d+)");
+                Match clearMatch = Regex.Match(CommandItem, @"clear");
+                Match resetMatch = Regex.Match(CommandItem, @"reset");
 
                 if (drawToMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(CommandItem, @"drawto\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[2].Value);
 
-                    // ICommand drawToCommand = new DrawTo(targetX, targetY, stateManager);
-                    // CommandParser.AddCommand(drawToCommand);
                     return new DrawTo(targetX, targetY, stateManager);
                 }
                 else if (moveToMatch.Success)
                 {
-                    // Match match = Regex.Match(commandText, @"MoveTo\((\d+), (\d+)\)");
-                    int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[2].Value);
 
-                    //ICommand moveToCommand = new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
-                    //CommandParser.AddCommand(moveToCommand);
                     return new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
 
                 }
                 else if (rectMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(CommandItem, @"rect\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[2].Value);
 
-                    // ICommand rectCommand = new RectangleCommand(targetX, targetY, stateManager);
-                    // CommandParser.AddCommand(rectCommand);
                     return new RectangleCommand(targetX, targetY, stateManager);
                 }
                 else if (trigMatch.Success)
                 {
-                    int targetX = int.Parse(Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)").Groups[1].Value);
-                    int targetY = int.Parse(Regex.Match(CommandItem, @"trig\((\d+), (\d+)\)").Groups[2].Value);
+                    int targetX = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[1].Value);
+                    int targetY = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[2].Value);
 
-                    // ICommand triangleCommand = new TriangleCommand(targetX, targetY, stateManager);
-                    // CommandParser.AddCommand(triangleCommand);
                     return new TriangleCommand(targetX, targetY, stateManager);
                 }
                 else if (circleMatch.Success)
                 {
-                    int radius = int.Parse(Regex.Match(CommandItem, @"circle\((\d+)\)").Groups[1].Value);
-
-                    //ICommand circleCommand = new CircleCommand(radius, stateManager);
-                    //CommandParser.AddCommand(circleCommand);
+                    int radius = int.Parse(Regex.Match(CommandItem, @"circle\s(\d+)").Groups[1].Value);
                     return new CircleCommand(radius, stateManager);
+                }
+                else if (clearMatch.Success)
+                {
+
+                }
+                else if (resetMatch.Success)
+                {
+                    int targetX = 15, targetY = 15;
+                    return new ResetCommand(targetX, targetY, stateManager, canvas, GPLPanel);
                 }
                 throw new InvalidOperationException("Unknown command type");
             }

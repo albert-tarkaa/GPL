@@ -36,9 +36,13 @@
             btnRun = new Button();
             textBoxParser = new TextBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            Save = new Button();
+            Open = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GPLPanel).BeginInit();
             flowLayoutPanel1.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // GPLParser
@@ -46,7 +50,7 @@
             GPLParser.AcceptsTab = true;
             GPLParser.BorderStyle = BorderStyle.None;
             GPLParser.Font = new Font("Trebuchet MS", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            GPLParser.Location = new Point(12, 12);
+            GPLParser.Location = new Point(12, 46);
             GPLParser.Name = "GPLParser";
             GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
             GPLParser.Size = new Size(427, 324);
@@ -58,7 +62,7 @@
             // 
             pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Location = new Point(26, 410);
+            pictureBox1.Location = new Point(26, 434);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(776, 206);
             pictureBox1.TabIndex = 6;
@@ -67,7 +71,7 @@
             // GPLPanel
             // 
             GPLPanel.BackColor = SystemColors.ControlLight;
-            GPLPanel.Location = new Point(460, 12);
+            GPLPanel.Location = new Point(460, 46);
             GPLPanel.Name = "GPLPanel";
             GPLPanel.Size = new Size(354, 324);
             GPLPanel.TabIndex = 7;
@@ -77,7 +81,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(15, 380);
+            label1.Location = new Point(738, 403);
             label1.Name = "label1";
             label1.Size = new Size(38, 15);
             label1.TabIndex = 8;
@@ -122,19 +126,55 @@
             flowLayoutPanel1.Controls.Add(textBoxParser);
             flowLayoutPanel1.Controls.Add(btnRun);
             flowLayoutPanel1.Controls.Add(button2);
-            flowLayoutPanel1.Location = new Point(12, 342);
+            flowLayoutPanel1.Location = new Point(12, 386);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(442, 32);
             flowLayoutPanel1.TabIndex = 4;
+            // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.Controls.Add(Save);
+            flowLayoutPanel2.Controls.Add(Open);
+            flowLayoutPanel2.Location = new Point(15, 7);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(424, 32);
+            flowLayoutPanel2.TabIndex = 5;
+            // 
+            // Save
+            // 
+            Save.BackColor = SystemColors.ActiveCaption;
+            Save.FlatAppearance.BorderColor = SystemColors.HotTrack;
+            Save.FlatStyle = FlatStyle.Popup;
+            Save.ForeColor = SystemColors.Window;
+            Save.Location = new Point(3, 3);
+            Save.Name = "Save";
+            Save.Size = new Size(75, 23);
+            Save.TabIndex = 2;
+            Save.Text = "Save";
+            Save.UseVisualStyleBackColor = false;
+            Save.Click += Save_Click;
+            // 
+            // Open
+            // 
+            Open.BackColor = Color.RosyBrown;
+            Open.FlatStyle = FlatStyle.Popup;
+            Open.Location = new Point(84, 3);
+            Open.Name = "Open";
+            Open.Size = new Size(75, 23);
+            Open.TabIndex = 3;
+            Open.Text = "Open Command";
+            Open.UseVisualStyleBackColor = false;
+            Open.Click += Open_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(827, 628);
+            ClientSize = new Size(827, 652);
             Controls.Add(label1);
             Controls.Add(GPLPanel);
             Controls.Add(pictureBox1);
+            Controls.Add(flowLayoutPanel2);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(GPLParser);
             Name = "Form1";
@@ -143,6 +183,7 @@
             ((System.ComponentModel.ISupportInitialize)GPLPanel).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -157,5 +198,8 @@
         private Button btnRun;
         private TextBox textBoxParser;
         private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Button Save;
+        private Button Open;
     }
 }
