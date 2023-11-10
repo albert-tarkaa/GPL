@@ -5,23 +5,31 @@ namespace GPL.Commands
     public class CircleCommand : ICommand
     {
         private readonly int targetX;
-        readonly CordinatesStateManager stateManager;
+        readonly DrawingSettings stateManager;
 
-        public CircleCommand(int x, CordinatesStateManager cordinatesStateManager)
+        public CircleCommand(int x, DrawingSettings cordinatesStateManager)
         {
             targetX = x; //radius
             this.stateManager = cordinatesStateManager;
         }
 
-        public void Execute(Graphics g)
+        public void Execute(Graphics g, bool fill, Color color)
         {
-            Pen pen = new(Color.Black, 1);
+            Pen pen = new(color, 1);
             int diameter = targetX * 2;
 
             int x = stateManager.GlobalX - targetX;
             int y = stateManager.GlobalY - targetX;
 
-            g.DrawEllipse(pen, x, y, diameter, diameter);
+            if (fill)
+            {
+                g.FillEllipse(new SolidBrush(color), x, y, diameter, diameter);
+            }
+            else
+            {
+                g.DrawEllipse(pen, x, y, diameter, diameter);
+            }
         }
+
     }
 }

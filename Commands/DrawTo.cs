@@ -5,9 +5,9 @@ namespace GPL.Commands
     public class DrawTo : ICommand
     {
         private int targetX, targetY;
-        CordinatesStateManager stateManager;
+        DrawingSettings stateManager;
 
-        public DrawTo(int x, int y, CordinatesStateManager cordinatesStateManager)
+        public DrawTo(int x, int y, DrawingSettings cordinatesStateManager)
         {
             targetX = x;
             targetY = y;
@@ -15,12 +15,23 @@ namespace GPL.Commands
 
         }
 
-        public void Execute(Graphics g)
+        public void Execute(Graphics g, bool fill, Color color)
         {
-            Pen pen = new Pen(Color.Black, 1);
-            g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
+            Pen pen = new Pen(color, 1);
+
+            if (fill)
+            {
+                SolidBrush brush = new SolidBrush(color);
+                g.FillEllipse(brush, stateManager.GlobalX, stateManager.GlobalY, targetX - stateManager.GlobalX, targetY - stateManager.GlobalY);
+            }
+            else
+            {
+                g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
+            }
+
             stateManager.SetCordinates(targetX, targetY);
         }
+
     }
 }
 

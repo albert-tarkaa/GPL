@@ -5,9 +5,9 @@ namespace GPL.Commands
     public class TriangleCommand : ICommand
     {
         private int targetX, targetY;
-        CordinatesStateManager stateManager;
+        DrawingSettings stateManager;
 
-        public TriangleCommand(int x, int y, CordinatesStateManager cordinatesStateManager)
+        public TriangleCommand(int x, int y, DrawingSettings cordinatesStateManager)
         {
             targetX = x;
             targetY = y;
@@ -15,16 +15,23 @@ namespace GPL.Commands
 
         }
 
-        public void Execute(Graphics g)
+        public void Execute(Graphics g, bool fill, Color color)
         {
-            Pen pen = new Pen(Color.Black, 1);
-            double height = (Math.Sqrt(3) / 2) * targetX;
             Point[] triangleVertices = {
-                new Point(stateManager.GlobalY, stateManager.GlobalX),
-                new Point(stateManager.GlobalX + targetX, stateManager.GlobalY),
-                new Point(stateManager.GlobalX + targetX / 2, stateManager.GlobalY - (int)height)
-            };
+        new Point(stateManager.GlobalY, stateManager.GlobalX),
+        new Point(stateManager.GlobalX + targetX, stateManager.GlobalY),
+        new Point(stateManager.GlobalX + targetX / 2, stateManager.GlobalY - (int)(Math.Sqrt(3) / 2 * targetX))
+        };
+
+            if (fill)
+            {
+                SolidBrush brush = new SolidBrush(color);
+                g.FillPolygon(brush, triangleVertices);
+            }
+
+            Pen pen = new Pen(Color.Black, 1);
             g.DrawPolygon(pen, triangleVertices);
         }
+
     }
 }

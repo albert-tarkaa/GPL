@@ -2,6 +2,6 @@
 {
     public interface ICommand
     {
-        void Execute(Graphics g);
+        void Execute(Graphics g,bool fill,Color color);
     }
 }

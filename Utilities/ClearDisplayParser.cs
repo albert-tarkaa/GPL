@@ -11,11 +11,12 @@ namespace GPL.Utilities
             Bitmap = bitmap;
         }
 
-        public void Execute(Graphics g)
+        public void Execute(Graphics g, bool fill, Color color)
         {
             using (g = Graphics.FromImage(Bitmap))
             {
                 g.Clear(SystemColors.ControlLight);
+
             }
         }
     }

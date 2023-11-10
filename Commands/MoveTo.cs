@@ -6,11 +6,11 @@ namespace GPL.Commands
     public class MoveTo : ICommand
     {
         private int targetX, targetY;
-        CordinatesStateManager stateManager;
+        DrawingSettings stateManager;
         Bitmap bitmap;
         PictureBox pictureBox;
 
-        public MoveTo(int x, int y, CordinatesStateManager cordinatesStateManager, Bitmap bitmap, PictureBox pictureBox)
+        public MoveTo(int x, int y, DrawingSettings cordinatesStateManager, Bitmap bitmap, PictureBox pictureBox)
         {
             targetX = x;
             targetY = y;
@@ -19,10 +19,10 @@ namespace GPL.Commands
             this.pictureBox = pictureBox;
         }
 
-        public void Execute(Graphics g)
+        public void Execute(Graphics g, bool fill, Color color)
         {
             stateManager.SetCordinates(targetX, targetY);
-            stateManager.DrawCursor(bitmap);
+            stateManager.DrawCursor(bitmap,true);
             pictureBox.Refresh();
         }
 

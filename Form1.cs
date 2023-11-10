@@ -1,12 +1,13 @@
 using GPL.Commands;
 using GPL.Utilities;
+using System.Diagnostics;
 
 namespace GPL
 {
     public partial class Form1 : Form
     {
 
-        private CordinatesStateManager globalCordinates;
+        private DrawingSettings globalCordinates;
         private CommandParser CommandParser;
         private Bitmap canvas;
 
@@ -17,7 +18,7 @@ namespace GPL
             canvas = new Bitmap(GPLPanel.Width, GPLPanel.Height);
             GPLPanel.Image = canvas;
             CommandParser = new CommandParser();
-            globalCordinates = new CordinatesStateManager(canvas, GPLPanel);
+            globalCordinates = new DrawingSettings(canvas, GPLPanel);
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
@@ -41,16 +42,15 @@ namespace GPL
                 CommandParser.ExecuteCommands(canvasGraphics);
             }
         }
-
         private void textBoxParser_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                var clearCommand = new ClearDisplayParser(canvas);
-                using (Graphics g = GPLPanel.CreateGraphics())
-                {
-                    clearCommand.Execute(g);
-                }
+                //var clearCommand = new ClearDisplayParser(canvas);
+                //using (Graphics g = GPLPanel.CreateGraphics())
+                //{
+                //    clearCommand.Execute(g);
+                // }
                 string inputCommand = textBoxParser.Text.ToLower().Trim();
                 if (!string.IsNullOrEmpty(inputCommand))
                 {
@@ -65,8 +65,7 @@ namespace GPL
                 }
             }
         }
-
-        private void Open_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -81,11 +80,23 @@ namespace GPL
             }
         }
 
-
-        private void Save_Click(object sender, EventArgs e)
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileService.SaveToFile(GPLParser);
         }
 
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/albert-tarkaa/GPL/#readme",
+                UseShellExecute = true
+            });
+        }
     }
 }

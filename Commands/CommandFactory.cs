@@ -7,11 +7,11 @@ namespace GPL.Commands
     {
         string CommandItem { get; set; }
         public PictureBox GPLPanel { get; }
-        private readonly CordinatesStateManager stateManager;
+        private readonly DrawingSettings stateManager;
         public CommandParser CommandParser { get; }
         private readonly Bitmap canvas;
 
-        public CommandFactory(string commandItem, PictureBox gPLPanel, CordinatesStateManager cordinatesStateManager, Bitmap bitmap)
+        public CommandFactory(string commandItem, PictureBox gPLPanel, DrawingSettings cordinatesStateManager, Bitmap bitmap)
         {
             this.CommandItem = commandItem ?? throw new ArgumentNullException($"'{nameof(CommandItem)}' cannot be null or empty.", nameof(CommandItem));
             CommandParser = new CommandParser();
@@ -73,10 +73,12 @@ namespace GPL.Commands
                 }
                 else if (clearMatch.Success)
                 {
-
+                    //Clear command clears the canvas without resetting the position
+                    //return new ClearCommand();
                 }
                 else if (resetMatch.Success)
                 {
+                    //Reset returns the cursor back to default but keeps any drawings on the canvas
                     int targetX = 15, targetY = 15;
                     return new ResetCommand(targetX, targetY, stateManager, canvas, GPLPanel);
                 }

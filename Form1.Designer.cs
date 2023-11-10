@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             GPLParser = new RichTextBox();
             pictureBox1 = new PictureBox();
             GPLPanel = new PictureBox();
@@ -35,13 +36,21 @@
             btnRun = new Button();
             textBoxParser = new TextBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            flowLayoutPanel2 = new FlowLayoutPanel();
-            Save = new Button();
-            Open = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator = new ToolStripSeparator();
+            saveToolStripMenuItem = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            exitToolStripMenuItem = new ToolStripMenuItem();
+            helpToolStripMenuItem = new ToolStripMenuItem();
+            aboutToolStripMenuItem = new ToolStripMenuItem();
+            customizeToolStripMenuItem = new ToolStripMenuItem();
+            optionsToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GPLPanel).BeginInit();
             flowLayoutPanel1.SuspendLayout();
-            flowLayoutPanel2.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // GPLParser
@@ -49,10 +58,10 @@
             GPLParser.AcceptsTab = true;
             GPLParser.BorderStyle = BorderStyle.None;
             GPLParser.Font = new Font("Trebuchet MS", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            GPLParser.Location = new Point(12, 46);
+            GPLParser.Location = new Point(12, 31);
             GPLParser.Name = "GPLParser";
             GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
-            GPLParser.Size = new Size(427, 324);
+            GPLParser.Size = new Size(442, 324);
             GPLParser.TabIndex = 0;
             GPLParser.Text = "";
             GPLParser.UseWaitCursor = true;
@@ -61,7 +70,7 @@
             // 
             pictureBox1.BackgroundImage = Properties.Resources.Frame_4;
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
-            pictureBox1.Location = new Point(26, 434);
+            pictureBox1.Location = new Point(18, 405);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(776, 206);
             pictureBox1.TabIndex = 6;
@@ -70,7 +79,7 @@
             // GPLPanel
             // 
             GPLPanel.BackColor = SystemColors.ControlLight;
-            GPLPanel.Location = new Point(460, 46);
+            GPLPanel.Location = new Point(460, 31);
             GPLPanel.Name = "GPLPanel";
             GPLPanel.Size = new Size(354, 324);
             GPLPanel.TabIndex = 7;
@@ -78,8 +87,10 @@
             // 
             // button2
             // 
-            button2.BackColor = Color.White;
+            button2.BackColor = Color.SlateGray;
             button2.FlatStyle = FlatStyle.Popup;
+            button2.Font = new Font("Cambria", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            button2.ForeColor = Color.White;
             button2.Location = new Point(352, 3);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
@@ -89,10 +100,11 @@
             // 
             // btnRun
             // 
-            btnRun.BackColor = SystemColors.HotTrack;
+            btnRun.BackColor = Color.SlateGray;
             btnRun.FlatAppearance.BorderColor = SystemColors.HotTrack;
             btnRun.FlatStyle = FlatStyle.Popup;
-            btnRun.ForeColor = SystemColors.Window;
+            btnRun.Font = new Font("Cambria", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            btnRun.ForeColor = Color.White;
             btnRun.Location = new Point(271, 3);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(75, 23);
@@ -115,64 +127,112 @@
             flowLayoutPanel1.Controls.Add(textBoxParser);
             flowLayoutPanel1.Controls.Add(btnRun);
             flowLayoutPanel1.Controls.Add(button2);
-            flowLayoutPanel1.Location = new Point(12, 386);
+            flowLayoutPanel1.Location = new Point(12, 363);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(442, 32);
             flowLayoutPanel1.TabIndex = 4;
             // 
-            // flowLayoutPanel2
+            // menuStrip1
             // 
-            flowLayoutPanel2.Controls.Add(Save);
-            flowLayoutPanel2.Controls.Add(Open);
-            flowLayoutPanel2.Location = new Point(15, 7);
-            flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(424, 32);
-            flowLayoutPanel2.TabIndex = 5;
+            menuStrip1.BackColor = Color.Gainsboro;
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(827, 24);
+            menuStrip1.TabIndex = 8;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // Save
+            // fileToolStripMenuItem
             // 
-            Save.BackColor = SystemColors.ActiveCaption;
-            Save.FlatAppearance.BorderColor = SystemColors.HotTrack;
-            Save.FlatStyle = FlatStyle.Popup;
-            Save.ForeColor = SystemColors.Window;
-            Save.Location = new Point(3, 3);
-            Save.Name = "Save";
-            Save.Size = new Size(75, 23);
-            Save.TabIndex = 2;
-            Save.Text = "Save";
-            Save.UseVisualStyleBackColor = false;
-            Save.Click += Save_Click;
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, toolStripSeparator, saveToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "&File";
             // 
-            // Open
+            // openToolStripMenuItem
             // 
-            Open.BackColor = Color.RosyBrown;
-            Open.FlatStyle = FlatStyle.Popup;
-            Open.Location = new Point(84, 3);
-            Open.Name = "Open";
-            Open.Size = new Size(75, 23);
-            Open.TabIndex = 3;
-            Open.Text = "Open Command";
-            Open.UseVisualStyleBackColor = false;
-            Open.Click += Open_Click;
+            openToolStripMenuItem.Image = (Image)resources.GetObject("openToolStripMenuItem.Image");
+            openToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
+            openToolStripMenuItem.Size = new Size(146, 22);
+            openToolStripMenuItem.Text = "&Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator
+            // 
+            toolStripSeparator.Name = "toolStripSeparator";
+            toolStripSeparator.Size = new Size(143, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Image = (Image)resources.GetObject("saveToolStripMenuItem.Image");
+            saveToolStripMenuItem.ImageTransparentColor = Color.Magenta;
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            saveToolStripMenuItem.Size = new Size(146, 22);
+            saveToolStripMenuItem.Text = "&Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(143, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            exitToolStripMenuItem.Size = new Size(146, 22);
+            exitToolStripMenuItem.Text = "E&xit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
+            // 
+            // helpToolStripMenuItem
+            // 
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem });
+            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            helpToolStripMenuItem.Size = new Size(44, 20);
+            helpToolStripMenuItem.Text = "&Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new Size(116, 22);
+            aboutToolStripMenuItem.Text = "&About...";
+            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
+            // 
+            // customizeToolStripMenuItem
+            // 
+            customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
+            customizeToolStripMenuItem.Size = new Size(180, 22);
+            customizeToolStripMenuItem.Text = "&Customize";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            optionsToolStripMenuItem.Size = new Size(180, 22);
+            optionsToolStripMenuItem.Text = "&Options";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(827, 652);
+            ClientSize = new Size(827, 622);
             Controls.Add(GPLPanel);
             Controls.Add(pictureBox1);
-            Controls.Add(flowLayoutPanel2);
             Controls.Add(flowLayoutPanel1);
             Controls.Add(GPLParser);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Simple Programming Language";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)GPLPanel).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
-            flowLayoutPanel2.ResumeLayout(false);
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -184,8 +244,16 @@
         private Button btnRun;
         private TextBox textBoxParser;
         private FlowLayoutPanel flowLayoutPanel1;
-        private FlowLayoutPanel flowLayoutPanel2;
-        private Button Save;
-        private Button Open;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator;
+        private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripSeparator toolStripSeparator1;
+        private ToolStripMenuItem exitToolStripMenuItem;
+        private ToolStripMenuItem helpToolStripMenuItem;
+        private ToolStripMenuItem aboutToolStripMenuItem;
+        private ToolStripMenuItem customizeToolStripMenuItem;
+        private ToolStripMenuItem optionsToolStripMenuItem;
     }
 }
