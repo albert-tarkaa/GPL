@@ -1,4 +1,6 @@
-﻿namespace GPL.Commands
+﻿using GPL.Commands;
+
+namespace GPL.Utilities
 {
     public class ClearCommand : ICommand
     {
@@ -6,7 +8,7 @@
 
         public ClearCommand(Bitmap bitmap)
         {
-            this.Bitmap = bitmap;
+            Bitmap = bitmap;
         }
 
         public void Execute(Graphics g)
