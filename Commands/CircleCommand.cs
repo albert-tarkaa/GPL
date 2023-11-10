@@ -1,4 +1,6 @@
-﻿namespace GPL.Commands
+﻿using GPL.Utilities;
+
+namespace GPL.Commands
 {
     public class CircleCommand : ICommand
     {
