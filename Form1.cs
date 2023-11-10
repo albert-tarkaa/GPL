@@ -13,30 +13,17 @@ namespace GPL
         public Form1()
         {
             InitializeComponent();
-            // GPLPanel.Invalidate();
             // Initialize the context and set default coordinates
             canvas = new Bitmap(GPLPanel.Width, GPLPanel.Height);
             GPLPanel.Image = canvas;
-
             CommandParser = new CommandParser();
             globalCordinates = new CordinatesStateManager(canvas, GPLPanel);
-
-
-            // DrawCursor();
-
-            //GPLPanel.Invalidate();
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
-            //Color[] shapeColors = { Color.Blue, Color.Red, Color.Green, Color.Orange, Color.Purple };
-            //int panelWidth = GPLPanel.Width;
-            //int panelHeight = GPLPanel.Height;
-            //Bitmap bitmap = new Bitmap(panelWidth, panelHeight);
-            //Graphics g = Graphics.FromImage(bitmap);
 
             GPLPanel.Refresh();
-            //Pen pen = new Pen(Color.Black, 1);
             var clearCommand = new ClearDisplayParser(canvas);
             CommandParser.AddCommand(clearCommand);
 
@@ -79,31 +66,6 @@ namespace GPL
             }
         }
 
-
-        //Added for debug purposes
-        private void UpdateCoordinatesLabel(int x, int y)
-        {
-            label1.Text = $"X: {x}, Y: {y}";
-        }
-        //Added for debug purposes
-        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
-        {
-            UpdateCoordinatesLabel(e.X, e.Y);
-        }
-
-
-
-
-        public void DrawCursor()
-        {
-            using (Graphics g = Graphics.FromImage(canvas))
-            {
-                Pen pen = new Pen(Color.Red);
-                g.DrawEllipse(pen, globalCordinates.GlobalX, globalCordinates.GlobalY, 6, 6);
-            }
-            // GPLPanel.Invalidate();
-        }
-
         private void Open_Click(object sender, EventArgs e)
         {
             try
@@ -123,7 +85,6 @@ namespace GPL
         private void Save_Click(object sender, EventArgs e)
         {
             FileService.SaveToFile(GPLParser);
-
         }
 
     }

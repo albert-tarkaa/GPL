@@ -31,7 +31,6 @@
             GPLParser = new RichTextBox();
             pictureBox1 = new PictureBox();
             GPLPanel = new PictureBox();
-            label1 = new Label();
             button2 = new Button();
             btnRun = new Button();
             textBoxParser = new TextBox();
@@ -76,16 +75,6 @@
             GPLPanel.Size = new Size(354, 324);
             GPLPanel.TabIndex = 7;
             GPLPanel.TabStop = false;
-            //GPLPanel.MouseMove += pictureBox_MouseMove;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(738, 403);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 8;
-            label1.Text = "label1";
             // 
             // button2
             // 
@@ -171,7 +160,6 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(827, 652);
-            Controls.Add(label1);
             Controls.Add(GPLPanel);
             Controls.Add(pictureBox1);
             Controls.Add(flowLayoutPanel2);
@@ -185,7 +173,6 @@
             flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -193,7 +180,6 @@
         private RichTextBox GPLParser;
         private PictureBox pictureBox1;
         private PictureBox GPLPanel;
-        private Label label1;
         private Button button2;
         private Button btnRun;
         private TextBox textBoxParser;
