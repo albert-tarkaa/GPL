@@ -76,7 +76,7 @@
             GPLPanel.Size = new Size(354, 324);
             GPLPanel.TabIndex = 7;
             GPLPanel.TabStop = false;
-            GPLPanel.MouseMove += pictureBox_MouseMove;
+            //GPLPanel.MouseMove += pictureBox_MouseMove;
             // 
             // label1
             // 
