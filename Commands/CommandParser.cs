@@ -10,15 +10,15 @@
             commands.Add(command);
         }
 
-        public void ExecuteCommands(Graphics g, bool fill = false, Color color = default)
+        public void ExecuteCommands(Graphics g)
         {
-            if (commands.Count > 0 || commands != null)
+            if (commands != null && commands.Count > 0)
             {
                 foreach (var command in commands)
                 {
-                    command.Execute(g, fill, color);
+                    command.Execute(g);
                 }
-                commands.Clear();
+              //  commands.Clear();
             }
         }
     }

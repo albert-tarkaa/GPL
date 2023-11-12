@@ -1,6 +1,4 @@
 ﻿using GPL.Commands;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace GPL.Utilities
 {
@@ -21,10 +19,10 @@ namespace GPL.Utilities
             this.pictureBox = pictureBox;
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
             stateManager.SetCordinates(defaultTargetX, defaultTargetY);
-            stateManager.DrawCursor(bitmap,false);
+            stateManager.DrawCursor(bitmap, false);
             //pictureBox.Refresh();
         }
     }

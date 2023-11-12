@@ -19,7 +19,7 @@ namespace GPL.Commands
             this.pictureBox = pictureBox;
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
             stateManager.SetCordinates(targetX, targetY);
             stateManager.DrawCursor(bitmap,true);

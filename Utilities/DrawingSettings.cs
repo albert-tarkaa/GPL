@@ -9,8 +9,8 @@ namespace GPL.Utilities
         public int GlobalY { get; private set; }
         Bitmap canvas;
         PictureBox pictureBox;
-        Color color;
-        bool fill;
+        public Color color;
+        public bool fill;
 
         public DrawingSettings(Bitmap Canvas, PictureBox PictureBox)
         {
@@ -30,9 +30,9 @@ namespace GPL.Utilities
             GlobalY = y;
         }
 
-        public void SetFill(bool Fill)
+        public void SetFill()
         {
-            fill = Fill;
+            fill = true;
         }
         public void SetColor(Color colour)
         {
@@ -50,12 +50,12 @@ namespace GPL.Utilities
                     backgroundBrush = new SolidBrush(Color.White);
                     g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
 
-                    backgroundBrush = new SolidBrush(Color.Red);
+                    backgroundBrush = new SolidBrush(color);
                     g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
                 }
                 else
                 {
-                    backgroundBrush = new SolidBrush(Color.Red);
+                    backgroundBrush = new SolidBrush(color);
                     g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
                 }
 

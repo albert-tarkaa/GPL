@@ -29,12 +29,11 @@ namespace GPL
             CommandParser.AddCommand(clearCommand);
 
             string inputCommands = GPLParser.Text.ToLower().Trim();
-            string[] commands = inputCommands.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] commands = inputCommands.Split(new char[] { '\n', '\v' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string commandText in commands)
             {
                 var commandFactory = new CommandFactory(commandText, GPLPanel, globalCordinates, canvas);
-
                 commandFactory.AddCommandFromText(commandText, CommandParser);
             }
             using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
@@ -46,11 +45,6 @@ namespace GPL
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //var clearCommand = new ClearDisplayParser(canvas);
-                //using (Graphics g = GPLPanel.CreateGraphics())
-                //{
-                //    clearCommand.Execute(g);
-                // }
                 string inputCommand = textBoxParser.Text.ToLower().Trim();
                 if (!string.IsNullOrEmpty(inputCommand))
                 {

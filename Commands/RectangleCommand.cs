@@ -1,6 +1,4 @@
 ﻿using GPL.Utilities;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace GPL.Commands
 {
@@ -16,18 +14,18 @@ namespace GPL.Commands
             this.stateManager = cordinatesStateManager;
 
         }
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
-            if (fill)
+            if (stateManager.fill)
             {
-                using (var brush = new SolidBrush(color))
+                using (var brush = new SolidBrush(stateManager.color))
                 {
                     g.FillRectangle(brush, stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
                 }
             }
             else
             {
-                g.DrawRectangle(new Pen(color), stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                g.DrawRectangle(new Pen(stateManager.color), stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
             }
         }
 

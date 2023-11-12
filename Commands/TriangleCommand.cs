@@ -15,7 +15,7 @@ namespace GPL.Commands
 
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
             Point[] triangleVertices = {
         new Point(stateManager.GlobalY, stateManager.GlobalX),
@@ -23,14 +23,17 @@ namespace GPL.Commands
         new Point(stateManager.GlobalX + targetX / 2, stateManager.GlobalY - (int)(Math.Sqrt(3) / 2 * targetX))
         };
 
-            if (fill)
+            if (stateManager.fill)
             {
-                SolidBrush brush = new SolidBrush(color);
+                SolidBrush brush = new SolidBrush(stateManager.color);
                 g.FillPolygon(brush, triangleVertices);
             }
-
-            Pen pen = new Pen(Color.Black, 1);
-            g.DrawPolygon(pen, triangleVertices);
+            else
+            {
+                Pen pen = new(stateManager.color, 1);
+                g.DrawPolygon(pen, triangleVertices);
+            }
+            
         }
 
     }

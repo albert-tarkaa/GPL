@@ -13,17 +13,17 @@ namespace GPL.Commands
             this.stateManager = cordinatesStateManager;
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
-            Pen pen = new(color, 1);
+            Pen pen = new(stateManager.color, 1);
             int diameter = targetX * 2;
 
             int x = stateManager.GlobalX - targetX;
             int y = stateManager.GlobalY - targetX;
 
-            if (fill)
+            if (stateManager.fill)
             {
-                g.FillEllipse(new SolidBrush(color), x, y, diameter, diameter);
+                g.FillEllipse(new SolidBrush(stateManager.color), x, y, diameter, diameter);
             }
             else
             {

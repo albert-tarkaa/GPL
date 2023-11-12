@@ -36,6 +36,9 @@ namespace GPL.Commands
                 Match circleMatch = Regex.Match(CommandItem, @"^circle\s(\d+)");
                 Match clearMatch = Regex.Match(CommandItem, @"clear");
                 Match resetMatch = Regex.Match(CommandItem, @"reset");
+                Match fillMatch = Regex.Match(CommandItem, @"fill\s+(on)");
+                Match PenMatch = Regex.Match(CommandItem, @"pen\s+(red|yellow|green|blue)");
+
 
                 if (drawToMatch.Success)
                 {
@@ -70,6 +73,37 @@ namespace GPL.Commands
                 {
                     int radius = int.Parse(Regex.Match(CommandItem, @"circle\s(\d+)").Groups[1].Value);
                     return new CircleCommand(radius, stateManager);
+                }
+                else if (fillMatch.Success)
+                {
+                    string fillValue = fillMatch.Groups[1].Value;
+                    if (!string.IsNullOrEmpty(fillValue))
+                        return new FillCommand(stateManager, canvas, GPLPanel);
+                }
+                else if (PenMatch.Success)
+                {
+                    string colorString = PenMatch.Groups[1].Value;
+                    Color color;
+
+                    switch (colorString)
+                    {
+                        case "red":
+                            color = Color.Red;
+                            break;
+                        case "blue":
+                            color = Color.Blue;
+                            break;
+                        case "green":
+                            color = Color.Green;
+                            break;
+                        case "yellow":
+                            color = Color.Yellow;
+                            break;
+                        default:
+                            color = Color.Black;
+                            break;
+                    }
+                    return new PenCommand(stateManager, GPLPanel, color);
                 }
                 else if (clearMatch.Success)
                 {

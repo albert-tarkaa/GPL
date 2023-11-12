@@ -11,7 +11,7 @@ namespace GPL.Utilities
             Bitmap = bitmap;
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
             using (g = Graphics.FromImage(Bitmap))
             {

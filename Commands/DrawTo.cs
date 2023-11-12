@@ -15,20 +15,11 @@ namespace GPL.Commands
 
         }
 
-        public void Execute(Graphics g, bool fill, Color color)
+        public void Execute(Graphics g)
         {
-            Pen pen = new Pen(color, 1);
+            Pen pen = new Pen(stateManager.color, 1);
 
-            if (fill)
-            {
-                SolidBrush brush = new SolidBrush(color);
-                g.FillEllipse(brush, stateManager.GlobalX, stateManager.GlobalY, targetX - stateManager.GlobalX, targetY - stateManager.GlobalY);
-            }
-            else
-            {
-                g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
-            }
-
+            g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
             stateManager.SetCordinates(targetX, targetY);
         }
 
