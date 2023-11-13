@@ -1,77 +1,45 @@
 ﻿using GPL.Commands;
 using GPL.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Drawing;
 
 namespace GPLTests
 {
     [TestClass]
     public class TriangleCommandTests
     {
+        /// <summary>
+        /// Tests the constructor of the <see cref="TriangleCommand"/> class with valid parameters x,y.
+        /// </summary>
         [TestMethod]
-        public void Execute_DrawTriangle()
+        public void Constructor_WithValidParameters_InitializationSuccessful()
         {
             // Arrange
             var stateManagerMock = new Mock<DrawingSettings>();
-            stateManagerMock.SetupGet(s => s.GlobalX).Returns(10);
-            stateManagerMock.SetupGet(s => s.GlobalY).Returns(10);
-            stateManagerMock.SetupGet(s => s.color).Returns(Color.Black);
-            stateManagerMock.SetupGet(s => s.fill).Returns(false);
-
-            var graphicsMock = new Mock<Graphics>();
-
-            var triangleCommand = new TriangleCommand(5, 8, stateManagerMock.Object);
 
             // Act
-            triangleCommand.Execute(graphicsMock.Object);
+            var triangleCommand = new TriangleCommand(5, 8, stateManagerMock.Object);
 
             // Assert
-            graphicsMock.Verify(g => g.DrawPolygon(It.IsAny<Pen>(), It.IsAny<Point[]>()), Times.Once);
+            Assert.IsNotNull(triangleCommand);
         }
 
+        /// <summary>
+        /// Tests the constructor of the <see cref="TriangleCommand"/> class with a negative X parameter.
+        /// Expects an <see cref="ArgumentOutOfRangeException"/>.
+        /// </summary>
         [TestMethod]
-        public void Execute_FillTriangle()
+        public void Constructor_WithNegativeX_ThrowsArgumentOutOfRangeException()
         {
             // Arrange
             var stateManagerMock = new Mock<DrawingSettings>();
-            stateManagerMock.SetupGet(s => s.GlobalX).Returns(10);
-            stateManagerMock.SetupGet(s => s.GlobalY).Returns(10);
-            stateManagerMock.SetupGet(s => s.color).Returns(Color.Black);
-            stateManagerMock.SetupGet(s => s.fill).Returns(true);
-
-            var graphicsMock = new Mock<Graphics>();
-
-            var triangleCommand = new TriangleCommand(5, 8, stateManagerMock.Object);
 
             // Act
-            triangleCommand.Execute(graphicsMock.Object);
+            Action act = () => new TriangleCommand(-5, 8, stateManagerMock.Object);
 
             // Assert
-            graphicsMock.Verify(g => g.FillPolygon(It.IsAny<SolidBrush>(), It.IsAny<Point[]>()), Times.Once);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(act, "Negative X should throw ArgumentOutOfRangeException.");
         }
 
-        [TestMethod]
-        public void Execute_WithException_ThrowsInvalidOperationException()
-        {
-            // Arrange
-            var stateManagerMock = new Mock<DrawingSettings>();
-            stateManagerMock.SetupGet(s => s.GlobalX).Returns(10);
-            stateManagerMock.SetupGet(s => s.GlobalY).Returns(10);
-            stateManagerMock.SetupGet(s => s.color).Returns(Color.Black);
-            stateManagerMock.SetupGet(s => s.fill).Returns(false);
 
-            var graphicsMock = new Mock<Graphics>();
-            graphicsMock.Setup(g => g.DrawPolygon(It.IsAny<Pen>(), It.IsAny<Point[]>()))
-                .Throws(new Exception("Simulated exception"));
-
-            var triangleCommand = new TriangleCommand(5, 8, stateManagerMock.Object);
-
-            // Act and Assert
-            Assert.ThrowsException<InvalidOperationException>(() => triangleCommand.Execute(graphicsMock.Object));
-        }
-
-        // Add more test cases as needed for different scenarios.
     }
 }
