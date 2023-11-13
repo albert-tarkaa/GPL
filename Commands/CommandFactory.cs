@@ -149,7 +149,6 @@ namespace GPL.Commands
                             throw new ArgumentException($"Unrecognized color: {colorString} in the pen command");
 
                     }
-                    ErrorHandlers.CheckArgumentCount(PenMatch, 2, "Pen");
                     return new PenCommand(stateManager, GPLPanel, color);
                 }
                 else if (clearMatch.Success)
