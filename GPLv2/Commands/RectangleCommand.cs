@@ -2,18 +2,37 @@
 
 namespace GPL.Commands
 {
+    /// <summary>
+    /// This is the Rectangle drawing class
+    /// </summary>
     public class RectangleCommand : ICommand
     {
         private int targetX, targetY;
         DrawingSettings stateManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleCommand"/> class.
+        /// </summary>
+        /// <param name="x">The width of the rectangle.</param>
+        /// <param name="y">The height of the rectangle.</param>
+        /// <param name="cordinatesStateManager">The drawing settings for the rectangle contained in the global object</param>
+        /// <exception cref="ArgumentOutOfRangeException">The parameters x,y must be non-negative or zero</exception>
         public RectangleCommand(int x, int y, DrawingSettings cordinatesStateManager)
         {
+            if (x <= 0 || y <= 0)
+            {
+                throw new ArgumentOutOfRangeException("x and y must be non-negative or zero");
+            }
             targetX = x;
             targetY = y;
             this.stateManager = cordinatesStateManager;
 
         }
+        /// <summary>
+        /// This is the Execute method that is used in drawing the Rectangle.
+        /// </summary>
+        /// <param name="g">The canvas for drawing the rectangle.</param>
+        /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
         public void Execute(Graphics g)
         {
 

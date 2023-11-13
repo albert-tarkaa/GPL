@@ -4,7 +4,6 @@ namespace GPL.Utilities
 {
     public class ErrorHandlers
     {
-        private readonly Bitmap canvas;
         public static void ErrorHandler(int x, int y, Exception argumentOutOfRangeException)
         {
             if (x <= 0 || y <= 0)

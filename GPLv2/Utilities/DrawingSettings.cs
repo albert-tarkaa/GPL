@@ -9,6 +9,8 @@
         public Color cursorColor;
         public bool fill;
 
+        public DrawingSettings() {}
+
         public DrawingSettings(Bitmap Canvas)
         {
             GlobalX = 15;
