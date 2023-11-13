@@ -3,23 +3,41 @@ using System.Text.RegularExpressions;
 
 namespace GPL.Commands
 {
+    /// <summary>
+    /// Factory class for creating commands based on input strings provided by user.
+    /// </summary>
     public class CommandFactory
     {
-        string CommandItem { get; set; }
+        public string CommandItem { get; set; }
         public PictureBox GPLPanel { get; }
         private readonly DrawingSettings stateManager;
         public CommandParser CommandParser { get; }
         private readonly Bitmap canvas;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandFactory"/> class.
+        /// </summary>
+        /// <param name="commandItem">The command item string.</param>
+        /// <param name="gPLPanel">The PictureBox used for drawing.</param>
+        /// <param name="cordinatesStateManager">The drawing settings manager.</param>
+        /// <param name="bitmap">The canvas bitmap.</param>
+        /// <exception cref="ArgumentNullException">Thrown if the commandItem is null or empty.</exception>
         public CommandFactory(string commandItem, PictureBox gPLPanel, DrawingSettings cordinatesStateManager, Bitmap bitmap)
         {
-            this.CommandItem = commandItem ?? throw new ArgumentNullException($"'{nameof(CommandItem)}' cannot be null or empty.", nameof(CommandItem));
+            this.CommandItem = commandItem ?? throw new ArgumentNullException($"'{nameof(CommandItem)}' cannot be null or empty.");
             CommandParser = new CommandParser();
             this.GPLPanel = gPLPanel;
             this.stateManager = cordinatesStateManager;
             this.canvas = bitmap;
         }
 
+        /// <summary>
+        /// Creates a command based on the provided command item string.
+        /// </summary>
+        /// <param name="commandItem">The command item string.</param>
+        /// <returns>An instance of ICommand representing the specified command.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if the commandItem is null or empty.</exception>
+        /// <exception cref="InvalidOperationException">Thrown if the command type is unknown or an error occurs during command creation.</exception>
         public ICommand CreateCommand(string CommandItem)
         {
             if (string.IsNullOrEmpty(CommandItem))
@@ -37,7 +55,7 @@ namespace GPL.Commands
                 Match clearMatch = Regex.Match(CommandItem, @"^clear$");
                 Match resetMatch = Regex.Match(CommandItem, @"^reset$");
                 Match fillMatch = Regex.Match(CommandItem, @"^fill\s+(on)(?:\s|$)");
-                Match PenMatch = Regex.Match(CommandItem, @"^pen\s+([\w\s]+)(?:\s|$)");
+                Match ColorMatch = Regex.Match(CommandItem, @"^color\s+([\w\s]+)(?:\s|$)");
 
                 if (drawToMatch.Success)
                 {
@@ -126,9 +144,9 @@ namespace GPL.Commands
                     }
 
                 }
-                else if (PenMatch.Success)
+                else if (ColorMatch.Success)
                 {
-                    string colorString = PenMatch.Groups[1].Value;
+                    string colorString = ColorMatch.Groups[1].Value;
                     Color color;
 
                     switch (colorString)
@@ -149,7 +167,7 @@ namespace GPL.Commands
                             throw new ArgumentException($"Unrecognized color: {colorString} in the pen command");
 
                     }
-                    return new PenCommand(stateManager, GPLPanel, color);
+                    return new ColorCommand(stateManager, GPLPanel, color);
                 }
                 else if (clearMatch.Success)
                 {
@@ -171,11 +189,15 @@ namespace GPL.Commands
             }
         }
 
+        /// <summary>
+        /// Adds a command created from the specified text to the command parser.
+        /// </summary>
+        /// <param name="commandText">The command text.</param>
+        /// <param name="parser">The command parser.</param>
         public void AddCommandFromText(string commandText, CommandParser parser)
         {
             var command = CreateCommand(commandText);
             parser.AddCommand(command);
         }
-
     }
 }
