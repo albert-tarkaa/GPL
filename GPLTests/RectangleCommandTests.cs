@@ -13,7 +13,7 @@ namespace GPLTests
     public class RectangleCommandTests
     {
         /// <summary>
-        /// Tests the constructor of the <see cref="RectangleCommand"/> class with valid parameters.
+        /// Tests the constructor of the <see cref="RectangleCommand"/> class with valid parameters x,y.
         /// </summary>
         [TestMethod]
         public void Constructor_WithValidParameters_InitializationSuccessful()

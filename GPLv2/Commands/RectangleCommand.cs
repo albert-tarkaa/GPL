@@ -29,7 +29,7 @@ namespace GPL.Commands
 
         }
         /// <summary>
-        /// This is the Execute method that is used in drawing the Rectangle.
+        /// This is the Execute method that is used in drawing the rectangle.The rectangle is either filled or outlined
         /// </summary>
         /// <param name="g">The canvas for drawing the rectangle.</param>
         /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
