@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using GPL.Utilities;
+﻿using GPL.Utilities;
 
 namespace GPL.Commands
 {
@@ -18,14 +17,21 @@ namespace GPL.Commands
             this.bitmap = bitmap;
             this.pictureBox = pictureBox;
         }
-
         public void Execute(Graphics g)
         {
-            stateManager.SetCordinates(targetX, targetY);
-            stateManager.DrawCursor(bitmap,true);
-            pictureBox.Refresh();
+
+            try
+            {
+                stateManager.SetCordinates(targetX, targetY);
+                //stateManager.DrawCursor(g,true);
+                pictureBox.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error executing 'MoveTo' command: {ex.Message}");
+            }
         }
 
-       
+
     }
 }

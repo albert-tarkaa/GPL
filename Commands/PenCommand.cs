@@ -16,8 +16,16 @@ namespace GPL.Commands
 
         public void Execute(Graphics g)
         {
-            stateManager.SetColor(color);
-            pictureBox.Refresh();
+
+            try
+            {
+                stateManager.SetColor(color);
+                pictureBox.Refresh();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error executing 'Pen' command: {ex.Message}");
+            }
         }
 
     }

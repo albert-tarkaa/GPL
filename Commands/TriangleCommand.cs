@@ -17,23 +17,30 @@ namespace GPL.Commands
 
         public void Execute(Graphics g)
         {
-            Point[] triangleVertices = {
+            try
+            {
+                Point[] triangleVertices = {
         new Point(stateManager.GlobalY, stateManager.GlobalX),
         new Point(stateManager.GlobalX + targetX, stateManager.GlobalY),
         new Point(stateManager.GlobalX + targetX / 2, stateManager.GlobalY - (int)(Math.Sqrt(3) / 2 * targetX))
         };
 
-            if (stateManager.fill)
-            {
-                SolidBrush brush = new SolidBrush(stateManager.color);
-                g.FillPolygon(brush, triangleVertices);
+                if (stateManager.fill)
+                {
+                    SolidBrush brush = new SolidBrush(stateManager.color);
+                    g.FillPolygon(brush, triangleVertices);
+                }
+                else
+                {
+                    Pen pen = new(stateManager.color, 1);
+                    g.DrawPolygon(pen, triangleVertices);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Pen pen = new(stateManager.color, 1);
-                g.DrawPolygon(pen, triangleVertices);
+                throw new InvalidOperationException($"Error executing 'Trig' command: {ex.Message}");
             }
-            
+
         }
 
     }

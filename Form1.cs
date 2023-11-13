@@ -18,46 +18,80 @@ namespace GPL
             canvas = new Bitmap(GPLPanel.Width, GPLPanel.Height);
             GPLPanel.Image = canvas;
             CommandParser = new CommandParser();
-            globalCordinates = new DrawingSettings(canvas, GPLPanel);
+            globalCordinates = new DrawingSettings(canvas);
         }
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
 
-            GPLPanel.Refresh();
-            var clearCommand = new ClearDisplayParser(canvas);
-            CommandParser.AddCommand(clearCommand);
-
-            string inputCommands = GPLParser.Text.ToLower().Trim();
-            string[] commands = inputCommands.Split(new char[] { '\n', '\v' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string commandText in commands)
+            try
             {
-                var commandFactory = new CommandFactory(commandText, GPLPanel, globalCordinates, canvas);
-                commandFactory.AddCommandFromText(commandText, CommandParser);
+                GPLPanel.Refresh();
+                var clearCommand = new ClearDisplayParser(canvas);
+                CommandParser.AddCommand(clearCommand);
+
+                string inputCommands = GPLParser.Text.ToLower().Trim();
+                string[] commands = inputCommands.Split(new char[] { '\n', '\v' }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string commandText in commands)
+                {
+                    var commandFactory = new CommandFactory(commandText, GPLPanel, globalCordinates, canvas);
+                    commandFactory.AddCommandFromText(commandText, CommandParser);
+                }
+                using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+                {
+                    CommandParser.ExecuteCommands(canvasGraphics);
+                }
             }
-            using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+            catch (Exception ex)
             {
-                CommandParser.ExecuteCommands(canvasGraphics);
+                using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+                {
+                    PointF errorPosition = new PointF(10, 15);
+                    Font errorFont = new Font("Times New Roman", 11, FontStyle.Regular);
+                    Brush errorBrush = new SolidBrush(Color.Red);
+                    canvasGraphics.DrawString(ex.Message, errorFont, errorBrush, errorPosition);
+                }
+
             }
         }
         private void textBoxParser_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            try
             {
-                string inputCommand = textBoxParser.Text.ToLower().Trim();
-                if (!string.IsNullOrEmpty(inputCommand))
+                if (e.KeyCode == Keys.Enter)
                 {
-                    var commandFactory = new CommandFactory(inputCommand, GPLPanel, globalCordinates, canvas);
-                    commandFactory.AddCommandFromText(inputCommand, CommandParser);
-
-                    using (Graphics graphics = GPLPanel.CreateGraphics())
+                    var clearCommand = new ClearDisplayParser(canvas);
+                    using (Graphics g = GPLPanel.CreateGraphics())
                     {
-                        graphics.DrawImage(canvas, Point.Empty);
-                        CommandParser.ExecuteCommands(graphics);
+                        clearCommand.Execute(g);
+                    }
+                    string inputCommand = textBoxParser.Text.ToLower().Trim();
+                    if (!string.IsNullOrEmpty(inputCommand))
+                    {
+                        var commandFactory = new CommandFactory(inputCommand, GPLPanel, globalCordinates, canvas);
+                        commandFactory.AddCommandFromText(inputCommand, CommandParser);
+
+                        using (Graphics graphics = GPLPanel.CreateGraphics())
+                        {
+                            graphics.DrawImage(canvas, Point.Empty);
+                            CommandParser.ExecuteCommands(graphics);
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+
+                using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+                {
+                    PointF errorPosition = new PointF(10, 15);
+                    Font errorFont = new Font("Times New Roman", 11, FontStyle.Regular);
+                    Brush errorBrush = new SolidBrush(Color.Red);
+                    canvasGraphics.DrawString(ex.Message, errorFont, errorBrush, errorPosition);
+                }
+            }
+
         }
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {

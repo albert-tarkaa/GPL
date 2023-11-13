@@ -9,6 +9,8 @@ namespace GPL.Commands
 
         public DrawTo(int x, int y, DrawingSettings cordinatesStateManager)
         {
+            if (x <= 0 || y <=0)
+                throw new ArgumentOutOfRangeException("The paramters must be greater than 0.");
             targetX = x;
             targetY = y;
             this.stateManager = cordinatesStateManager;
@@ -17,10 +19,18 @@ namespace GPL.Commands
 
         public void Execute(Graphics g)
         {
-            Pen pen = new Pen(stateManager.color, 1);
+            try
+            {
+                Pen pen = new(stateManager.color, 1);
 
-            g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
-            stateManager.SetCordinates(targetX, targetY);
+                g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
+                stateManager.SetCordinates(targetX, targetY);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error executing 'DrawTo' command: {ex.Message}");
+            }
+
         }
 
     }

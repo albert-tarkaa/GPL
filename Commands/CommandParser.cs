@@ -12,14 +12,22 @@
 
         public void ExecuteCommands(Graphics g)
         {
-            if (commands != null && commands.Count > 0)
+            try
             {
-                foreach (var command in commands)
+                if (commands != null && commands.Count > 0)
                 {
-                    command.Execute(g);
+                    foreach (var command in commands)
+                    {
+                        command.Execute(g);
+                    }
+                    commands.Clear();
                 }
-              //  commands.Clear();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while executing commands: {ex.Message}");
+            }
+            
         }
     }
 }

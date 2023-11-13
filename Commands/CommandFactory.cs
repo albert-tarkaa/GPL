@@ -118,7 +118,7 @@ namespace GPL.Commands
                     {
                         string fillValue = fillMatch.Groups[1].Value;
                         if (!string.IsNullOrEmpty(fillValue))
-                            return new FillCommand(stateManager, canvas, GPLPanel);
+                            return new FillCommand(stateManager, GPLPanel);
                     }
                     catch (Exception ex)
                     {

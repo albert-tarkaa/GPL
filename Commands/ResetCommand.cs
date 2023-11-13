@@ -6,24 +6,29 @@ namespace GPL.Utilities
     {
         private int defaultTargetX, defaultTargetY;
         DrawingSettings stateManager;
-        Bitmap bitmap;
-        PictureBox pictureBox;
 
 
-        public ResetCommand(int x, int y, DrawingSettings cordinatesStateManager, Bitmap bitmap, PictureBox pictureBox)
+        public ResetCommand(int x, int y, DrawingSettings cordinatesStateManager)
         {
             this.defaultTargetX = x;
             this.defaultTargetY = y;
             this.stateManager = cordinatesStateManager;
-            this.bitmap = bitmap;
-            this.pictureBox = pictureBox;
         }
 
         public void Execute(Graphics g)
         {
-            stateManager.SetCordinates(defaultTargetX, defaultTargetY);
-            stateManager.DrawCursor(bitmap, false);
-            //pictureBox.Refresh();
+            
+            try
+            {
+                stateManager.SetCordinates(defaultTargetX, defaultTargetY);
+                //stateManager.DrawCursor(bitmap, false);
+                //pictureBox.Refresh();
+                // pictureBox.Invalidate();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Error executing 'Reset' command: {ex.Message}");
+            }
         }
     }
 }

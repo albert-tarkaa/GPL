@@ -61,7 +61,7 @@
             GPLParser.Location = new Point(12, 31);
             GPLParser.Name = "GPLParser";
             GPLParser.ScrollBars = RichTextBoxScrollBars.Vertical;
-            GPLParser.Size = new Size(442, 324);
+            GPLParser.Size = new Size(355, 324);
             GPLParser.TabIndex = 0;
             GPLParser.Text = "";
             GPLParser.UseWaitCursor = true;
@@ -79,9 +79,9 @@
             // GPLPanel
             // 
             GPLPanel.BackColor = SystemColors.ControlLight;
-            GPLPanel.Location = new Point(460, 31);
+            GPLPanel.Location = new Point(373, 31);
             GPLPanel.Name = "GPLPanel";
-            GPLPanel.Size = new Size(354, 324);
+            GPLPanel.Size = new Size(441, 324);
             GPLPanel.TabIndex = 7;
             GPLPanel.TabStop = false;
             // 

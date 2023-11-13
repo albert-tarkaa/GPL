@@ -16,16 +16,24 @@ namespace GPL.Commands
         }
         public void Execute(Graphics g)
         {
-            if (stateManager.fill)
+
+            try
             {
-                using (var brush = new SolidBrush(stateManager.color))
+                if (stateManager.fill)
                 {
-                    g.FillRectangle(brush, stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                    using (var brush = new SolidBrush(stateManager.color))
+                    {
+                        g.FillRectangle(brush, stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                    }
+                }
+                else
+                {
+                    g.DrawRectangle(new Pen(stateManager.color), stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                g.DrawRectangle(new Pen(stateManager.color), stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                throw new InvalidOperationException($"Error executing 'Rect' command: {ex.Message}");
             }
         }
 
