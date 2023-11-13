@@ -29,15 +29,15 @@ namespace GPL.Commands
 
             try
             {
-                Match drawToMatch = Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)");
-                Match moveToMatch = Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)");
-                Match rectMatch = Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)");
-                Match trigMatch = Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)");
-                Match circleMatch = Regex.Match(CommandItem, @"^circle\s(\d+)");
-                Match clearMatch = Regex.Match(CommandItem, @"clear");
-                Match resetMatch = Regex.Match(CommandItem, @"reset");
-                Match fillMatch = Regex.Match(CommandItem, @"fill\s+(on)");
-                Match PenMatch = Regex.Match(CommandItem, @"pen\s+([\w\s]+)");
+                Match drawToMatch = Regex.Match(CommandItem, @"^drawto\s(\d+),\s?(\d+)(?:\s|$)");
+                Match moveToMatch = Regex.Match(CommandItem, @"^moveto\s(\d+),\s?(\d+)(?:\s|$)");
+                Match rectMatch = Regex.Match(CommandItem, @"^rect\s(\d+),\s?(\d+)(?:\s|$)");
+                Match trigMatch = Regex.Match(CommandItem, @"^trig\s(\d+),\s?(\d+)(?:\s|$)");
+                Match circleMatch = Regex.Match(CommandItem, @"^circle\s(\d+)(?:\s|$)");
+                Match clearMatch = Regex.Match(CommandItem, @"^clear$");
+                Match resetMatch = Regex.Match(CommandItem, @"^reset$");
+                Match fillMatch = Regex.Match(CommandItem, @"^fill\s+(on)(?:\s|$)");
+                Match PenMatch = Regex.Match(CommandItem, @"^pen\s+([\w\s]+)(?:\s|$)");
 
                 if (drawToMatch.Success)
                 {
@@ -59,8 +59,6 @@ namespace GPL.Commands
                 {
                     try
                     {
-
-
                         int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[1].Value);
                         int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[2].Value);
                         ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
@@ -151,6 +149,7 @@ namespace GPL.Commands
                             throw new ArgumentException($"Unrecognized color: {colorString} in the pen command");
 
                     }
+                    ErrorHandlers.CheckArgumentCount(PenMatch, 2, "Pen");
                     return new PenCommand(stateManager, GPLPanel, color);
                 }
                 else if (clearMatch.Success)
