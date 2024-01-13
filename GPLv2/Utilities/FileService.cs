@@ -1,13 +1,17 @@
 ﻿namespace GPL.Utilities
 {
+    /// <summary>
+    /// Provides file-related utility methods.
+    /// </summary>
     public class FileService
     {
-
-        public FileService() { }
-
+        /// <summary>
+        /// Reads text from a file and populates a RichTextBox.
+        /// </summary>
+        /// <param name="GPLParser">The RichTextBox to populate with file contents.</param>
+        /// <returns>True if reading from the file is successful; otherwise, false.</returns>
         public static bool ReadFromFile(RichTextBox GPLParser)
         {
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
@@ -37,6 +41,10 @@
             return false;
         }
 
+        /// <summary>
+        /// Saves the contents of a RichTextBox to a text file.
+        /// </summary>
+        /// <param name="richTextBox">The RichTextBox whose contents to save.</param>
         public static void SaveToFile(RichTextBox richTextBox)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -58,6 +66,5 @@
                 }
             }
         }
-
     }
 }
