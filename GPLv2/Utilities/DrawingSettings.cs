@@ -1,4 +1,6 @@
-﻿namespace GPL.Utilities
+﻿using System.Drawing;
+
+namespace GPL.Utilities
 {
     /// <summary>
     /// Manages drawing settings and variables.
@@ -29,17 +31,17 @@
         /// <summary>
         /// Gets or sets the drawing color.
         /// </summary>
-        public Color Color { get; set; }
+        public Color color { get; set; }
 
         /// <summary>
         /// Gets or sets the cursor color.
         /// </summary>
-        public Color CursorColor { get; set; }
+        public Color cursorColor { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to fill shapes.
         /// </summary>
-        public bool Fill { get; set; }
+        public bool fill { get; set; }
 
         /// <summary>
         /// Gets the dictionary of variables.
@@ -59,10 +61,10 @@
         {
             GlobalX = 15;
             GlobalY = 15;
-            Canvas = canvas;
-            Color = Color.Black;
-            CursorColor = Color.Red;
-            Fill = false;
+            canvas = Canvas;
+            color = Color.Black;
+            cursorColor = Color.Red;
+            fill = false;
 
             using (Graphics g = Graphics.FromImage(Canvas))
             {
