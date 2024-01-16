@@ -23,7 +23,7 @@ namespace GPL.Utilities
                 return variables[variableName]; // Variable found, return its value
             }
 
-            return null; // Variable not found
+            return variableName; // Variable not found
         }
 
         /// <summary>
