@@ -9,7 +9,7 @@ namespace GPL.Utilities
     public class VariableManager
     {
         // Private dictionary to store variable names and values
-        private static Dictionary<string, object> variables = new Dictionary<string, object>();
+        private static readonly Dictionary<string, object> variables = new();
 
         /// <summary>
         /// Checks if the variable with the specified name is already declared.
@@ -20,10 +20,10 @@ namespace GPL.Utilities
         {
             if (variables.ContainsKey(variableName))
             {
-                return variables[variableName]; // Variable found, return its value
+                return variables[variableName];
             }
 
-            return variableName; // Variable not found
+            return variableName;
         }
 
         /// <summary>

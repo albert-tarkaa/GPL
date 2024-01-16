@@ -24,7 +24,6 @@ namespace GPL.Commands
 
             if (XValue != null && YValue != null)
             {
-                // Use the variable values for drawing the line
                 int X = ConvertToInteger.Convert(XValue, "X");
                 int Y = ConvertToInteger.Convert(YValue, "Y");
 
@@ -32,7 +31,6 @@ namespace GPL.Commands
             }
             else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
             {
-                // Use the constant values for drawing the line
                 MoveCordinates(g, X, Y);
             }
             else

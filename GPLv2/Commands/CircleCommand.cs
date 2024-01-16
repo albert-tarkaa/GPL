@@ -28,7 +28,6 @@ namespace GPL.Commands
 
             if (radiusValue != null)
             {
-                // Use the variable value for drawing the circle
                 if (radiusValue is int radius)
                 {
                     DrawCircle(g, radius);
@@ -40,7 +39,6 @@ namespace GPL.Commands
             }
             else if (int.TryParse(radiusParameter, out int constantRadius))
             {
-                // Use the constant radius for drawing the circle
                 DrawCircle(g, constantRadius);
             }
             else

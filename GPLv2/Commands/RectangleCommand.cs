@@ -8,7 +8,7 @@ namespace GPL.Commands
     public class RectangleCommand : ICommand
     {
         private readonly string targetX, targetY;
-        DrawingSettings stateManager;
+        readonly DrawingSettings stateManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RectangleCommand"/> class.
@@ -36,7 +36,6 @@ namespace GPL.Commands
 
             if (XValue != null && YValue != null)
             {
-                // Use the variable values for drawing the rectangle
                 int X = ConvertToInteger.Convert(XValue, "X");
                 int Y = ConvertToInteger.Convert(YValue, "Y");
 
@@ -44,7 +43,6 @@ namespace GPL.Commands
             }
             else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
             {
-                // Use the constant values for drawing the rectangle
                 DrawRectangle(g, X, Y);
             }
             else

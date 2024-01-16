@@ -31,26 +31,6 @@ namespace GPL.Commands
         /// </summary>
         /// <param name="g">The graphics object for drawing.</param>
         /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
-        //public void Execute(Graphics g)
-        //{
-        //    try
-        //    {
-        //        Pen pen = new(stateManager.color, 1);
-
-        //        g.DrawLine(pen, new Point(stateManager.GlobalX, stateManager.GlobalY), new Point(targetX, targetY));
-        //        stateManager.SetCordinates(targetX, targetY);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new InvalidOperationException($"Error executing 'DrawTo' command: {ex.Message}");
-        //    }
-
-        //}
-        /// <summary>
-        /// Executes the DrawTo command by drawing a line to the specified coordinates.
-        /// </summary>
-        /// <param name="g">The graphics object for drawing.</param>
-        /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
         public void Execute(Graphics g)
         {
             object XValue = VariableManager.CheckVariable(targetX);
@@ -62,12 +42,10 @@ namespace GPL.Commands
                 int X = ConvertToInteger.Convert(XValue, "X");
                 int Y = ConvertToInteger.Convert(YValue, "Y");
 
-                // Use the variable values for drawing the line
                 DrawLine(g, X, Y);
             }
             else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
             {
-                // Use the constant values for drawing the line
                 DrawLine(g, X, Y);
             }
             else
