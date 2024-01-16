@@ -26,7 +26,7 @@ namespace GPL.Commands
         {
             object radiusValue = VariableManager.CheckVariable(radiusParameter);
 
-            if (radiusValue != null)
+            if (radiusValue != null && !radiusValue.Equals(radiusParameter))
             {
                 if (radiusValue is int radius)
                 {
