@@ -50,7 +50,7 @@ namespace GPL.Commands
                 // Check if the initial value is a valid integer
                 if (int.TryParse(commandValue, out int initialValue))
                 {
-                    VariableManager.SetVariable(commandName, initialValue);
+                    VariableManager.AssignVariable(commandName, initialValue);
                 }
                 else if (IsValidManipulationString(commandValue))
                 {
@@ -66,7 +66,7 @@ namespace GPL.Commands
                 // Variable not declared, declare it and assign the value
                 if (int.TryParse(commandValue, out int initialValue))
                 {
-                    VariableManager.SetVariable(commandName, initialValue);
+                    VariableManager.AssignVariable(commandName, initialValue);
                 }
                 else
                 {
@@ -96,18 +96,18 @@ namespace GPL.Commands
                         switch (operatorSymbol)
                         {
                             case "+":
-                                VariableManager.SetVariable(variableName, (int)variableValue + value);
+                                VariableManager.AssignVariable(variableName, (int)variableValue + value);
                                 break;
                             case "-":
-                                VariableManager.SetVariable(variableName, (int)variableValue - value);
+                                VariableManager.AssignVariable(variableName, (int)variableValue - value);
                                 break;
                             case "*":
-                                VariableManager.SetVariable(variableName, (int)variableValue * value);
+                                VariableManager.AssignVariable(variableName, (int)variableValue * value);
                                 break;
                             case "/":
                                 if (value != 0)
                                 {
-                                    VariableManager.SetVariable(variableName, (int)variableValue / value);
+                                    VariableManager.AssignVariable(variableName, (int)variableValue / value);
                                 }
                                 else
                                 {
@@ -117,7 +117,7 @@ namespace GPL.Commands
                             case "%":
                                 if (value != 0)
                                 {
-                                    VariableManager.SetVariable(variableName, (int)variableValue % value);
+                                    VariableManager.AssignVariable(variableName, (int)variableValue % value);
                                 }
                                 else
                                 {

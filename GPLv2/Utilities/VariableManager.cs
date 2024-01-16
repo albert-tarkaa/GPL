@@ -9,7 +9,7 @@ namespace GPL.Utilities
     public class VariableManager
     {
         // Private dictionary to store variable names and values
-        private static readonly Dictionary<string, object> variables = new();
+        private static readonly Dictionary<string, object> variableState = new();
 
         /// <summary>
         /// Checks if the variable with the specified name is already declared.
@@ -18,9 +18,9 @@ namespace GPL.Utilities
         /// <returns>The value of the variable if found; otherwise, null.</returns>
         public static object CheckVariable(string variableName)
         {
-            if (variables.ContainsKey(variableName))
+            if (variableState.ContainsKey(variableName))
             {
-                return variables[variableName];
+                return variableState[variableName];
             }
 
             return variableName;
@@ -31,9 +31,9 @@ namespace GPL.Utilities
         /// </summary>
         /// <param name="variableName">The name of the variable.</param>
         /// <param name="value">The value to set.</param>
-        public static void SetVariable(string variableName, object value)
+        public static void AssignVariable(string variableName, object value)
         {
-            variables[variableName] = value;
+            variableState[variableName] = value;
         }
     }
 }
