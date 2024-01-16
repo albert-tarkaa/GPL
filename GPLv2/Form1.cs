@@ -1,5 +1,6 @@
 using GPL.Commands;
 using GPL.Utilities;
+using System;
 using System.Diagnostics;
 
 namespace GPL
@@ -23,18 +24,22 @@ namespace GPL
 
         private void BtnRun_Click(object sender, EventArgs e)
         {
-
+            int errorLine = 0;
             try
             {
                 GPLPanel.Refresh();
                 var clearCommand = new ClearDisplayParser(canvas);
                 CommandParser.AddCommand(clearCommand);
 
+                
+
                 string inputCommands = GPLParser.Text.ToLower().Trim();
                 string[] commands = inputCommands.Split(new char[] { '\n', '\v' }, StringSplitOptions.RemoveEmptyEntries);
 
                 foreach (string commandText in commands)
                 {
+                   // errorLine =  Array.IndexOf(commands, commandText) + 1;
+
                     var commandFactory = new CommandFactory(commandText, GPLPanel, globalCordinates, canvas);
                     commandFactory.AddCommandFromText(commandText, CommandParser);
                 }
@@ -50,7 +55,7 @@ namespace GPL
                     PointF errorPosition = new PointF(10, 15);
                     Font errorFont = new Font("Times New Roman", 11, FontStyle.Regular);
                     Brush errorBrush = new SolidBrush(Color.Red);
-                    canvasGraphics.DrawString(ex.Message, errorFont, errorBrush, errorPosition);
+                    canvasGraphics.DrawString(ex.Message + string.Format(" at line {0}",errorLine), errorFont, errorBrush, errorPosition);
                 }
 
             }
