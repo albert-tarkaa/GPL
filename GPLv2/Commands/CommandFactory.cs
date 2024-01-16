@@ -45,17 +45,22 @@ namespace GPL.Commands
                 throw new ArgumentNullException(nameof(CommandItem), $"'{nameof(CommandItem)}' cannot be null or empty.");
             }
 
+
+
             try
             {
-                Match drawToMatch = Regex.Match(CommandItem, @"^drawto\s(\d+),\s?(\d+)(?:\s|$)");
-                Match moveToMatch = Regex.Match(CommandItem, @"^moveto\s(\d+),\s?(\d+)(?:\s|$)");
-                Match rectMatch = Regex.Match(CommandItem, @"^rect\s(\d+),\s?(\d+)(?:\s|$)");
-                Match trigMatch = Regex.Match(CommandItem, @"^trig\s(\d+),\s?(\d+)(?:\s|$)");
-                Match circleMatch = Regex.Match(CommandItem, @"^circle\s(\d+)(?:\s|$)");
+                // Match with coordinates or variable
+                Match drawToMatch = Regex.Match(CommandItem, @"^drawto\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match moveToMatch = Regex.Match(CommandItem, @"^moveto\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match rectMatch = Regex.Match(CommandItem, @"^rect\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match trigMatch = Regex.Match(CommandItem, @"^trig\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match circleMatch = Regex.Match(CommandItem, @"^circle\s([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
                 Match clearMatch = Regex.Match(CommandItem, @"^clear$");
                 Match resetMatch = Regex.Match(CommandItem, @"^reset$");
                 Match fillMatch = Regex.Match(CommandItem, @"^fill\s+(on)(?:\s|$)");
                 Match ColorMatch = Regex.Match(CommandItem, @"^color\s+([\w\s]+)(?:\s|$)");
+                //Match variableAssignmentMatch = Regex.Match(CommandItem, @"^([a-zA-Z][a-zA-Z0-9]*)\s*=\s*(\d+)$");
+                Match variableAssignmentMatch = Regex.Match(CommandItem, @"^\s*[a-zA-Z][a-zA-Z0-9]*\s*=\s*(\d+|[a-zA-Z][a-zA-Z0-9]*\s*[\+\-\*/%]\s*\d+)\s*$");
 
                 if (drawToMatch.Success)
                 {
@@ -63,7 +68,7 @@ namespace GPL.Commands
                     {
                         int targetX = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[1].Value);
                         int targetY = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[2].Value);
-                        ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                       // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new DrawTo(targetX, targetY, stateManager);
 
                     }
@@ -79,7 +84,7 @@ namespace GPL.Commands
                     {
                         int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[1].Value);
                         int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[2].Value);
-                        ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                       // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
                     }
                     catch (Exception ex)
@@ -94,7 +99,7 @@ namespace GPL.Commands
                     {
                         int targetX = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[1].Value);
                         int targetY = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[2].Value);
-                        ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                        //ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new RectangleCommand(targetX, targetY, stateManager);
                     }
                     catch (Exception ex)
@@ -108,7 +113,7 @@ namespace GPL.Commands
                     {
                         int targetX = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[1].Value);
                         int targetY = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[2].Value);
-                        ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                        //ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new TriangleCommand(targetX, targetY, stateManager);
                     }
                     catch (Exception ex)
@@ -120,8 +125,8 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        int radius = int.Parse(Regex.Match(CommandItem, @"circle\s(\d+)").Groups[1].Value);
-                        ErrorHandlers.ErrorHandler(radius, new ArgumentOutOfRangeException("circle radius cannot be negative or zero."));
+                        var radius =Regex.Match(CommandItem, @"circle\s(.+)").Groups[1].Value;
+                       // ErrorHandlers.ErrorHandler(radius, new ArgumentOutOfRangeException("circle radius cannot be negative or zero."));
                         return new CircleCommand(radius, stateManager);
                     }
                     catch (Exception ex)
@@ -180,6 +185,18 @@ namespace GPL.Commands
                     int targetX = 15;
                     int targetY = 15;
                     return new ResetCommand(targetX, targetY, stateManager);
+                }
+                else if (variableAssignmentMatch.Success)
+                {
+                    try
+                    {
+                        return new VariableAssignmentCommand(CommandItem,stateManager);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new FormatException($"An error occurred while executing commands: {ex.Message}");
+                    }
+
                 }
                 throw new InvalidOperationException($"Unknown command type: {CommandItem}");
             }
