@@ -45,13 +45,11 @@ namespace GPL.Commands
                 throw new ArgumentNullException(nameof(CommandItem), $"'{nameof(CommandItem)}' cannot be null or empty.");
             }
 
-
-
             try
             {
                 // Match with coordinates or variable
                 Match drawToMatch = Regex.Match(CommandItem, @"^drawto\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
-                Match moveToMatch = Regex.Match(CommandItem, @"^moveto\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match moveToMatch = Regex.Match(CommandItem, @"moveto\s(.+?),\s?(.+)");
                 Match rectMatch = Regex.Match(CommandItem, @"^rect\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
                 Match trigMatch = Regex.Match(CommandItem, @"^trig\s([a-zA-Z][a-zA-Z0-9]*|\d+),\s?([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
                 Match circleMatch = Regex.Match(CommandItem, @"^circle\s([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
@@ -66,9 +64,12 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        int targetX = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[1].Value);
-                        int targetY = int.Parse(Regex.Match(CommandItem, @"drawto\s(\d+),\s?(\d+)").Groups[2].Value);
-                       // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                        string xParameter = drawToMatch.Groups[1].Value;
+                        string yParameter = drawToMatch.Groups[2].Value;
+
+                        int targetX = ConvertToInteger.Convert(xParameter, "X");
+                        int targetY = ConvertToInteger.Convert(yParameter, "Y");
+                        // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new DrawTo(targetX, targetY, stateManager);
 
                     }
@@ -82,9 +83,9 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        int targetX = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[1].Value);
-                        int targetY = int.Parse(Regex.Match(CommandItem, @"moveto\s(\d+),\s?(\d+)").Groups[2].Value);
-                       // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
+                        var targetX = Regex.Match(CommandItem, @"moveto\s(\w+),\s?(\w+)").Groups[1].Value;
+                        var targetY = Regex.Match(CommandItem, @"moveto\s(\w+),\s?(\w+)").Groups[2].Value;
+                        // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
                     }
                     catch (Exception ex)
@@ -97,8 +98,8 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        int targetX = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[1].Value);
-                        int targetY = int.Parse(Regex.Match(CommandItem, @"rect\s(\d+),\s?(\d+)").Groups[2].Value);
+                        var targetX = Regex.Match(CommandItem, @"rect\s(\w+),\s?(\w+)").Groups[1].Value;
+                        var targetY = Regex.Match(CommandItem, @"rect\s(\w+),\s?(\w+)").Groups[2].Value;
                         //ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new RectangleCommand(targetX, targetY, stateManager);
                     }
@@ -111,8 +112,8 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        int targetX = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[1].Value);
-                        int targetY = int.Parse(Regex.Match(CommandItem, @"trig\s(\d+),\s?(\d+)").Groups[2].Value);
+                        var targetX = Regex.Match(CommandItem, @"trig\s(\w+),\s?(\w+)").Groups[1].Value;
+                        var targetY = Regex.Match(CommandItem, @"trig\s(\w+),\s?(\w+)").Groups[2].Value;
                         //ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new TriangleCommand(targetX, targetY, stateManager);
                     }
@@ -125,8 +126,7 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        var radius =Regex.Match(CommandItem, @"circle\s(.+)").Groups[1].Value;
-                       // ErrorHandlers.ErrorHandler(radius, new ArgumentOutOfRangeException("circle radius cannot be negative or zero."));
+                        var radius =Regex.Match(CommandItem, @"circle\s(\w+)").Groups[1].Value;
                         return new CircleCommand(radius, stateManager);
                     }
                     catch (Exception ex)
