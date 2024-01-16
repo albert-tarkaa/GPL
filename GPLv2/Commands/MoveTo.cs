@@ -4,12 +4,12 @@ namespace GPL.Commands
 {
     public class MoveTo : ICommand
     {
-        private int targetX, targetY;
+        private readonly string targetX, targetY;
         DrawingSettings stateManager;
         Bitmap bitmap;
         PictureBox pictureBox;
 
-        public MoveTo(int x, int y, DrawingSettings cordinatesStateManager, Bitmap bitmap, PictureBox pictureBox)
+        public MoveTo(string x, string y, DrawingSettings cordinatesStateManager, Bitmap bitmap, PictureBox pictureBox)
         {
             targetX = x;
             targetY = y;
@@ -19,11 +19,37 @@ namespace GPL.Commands
         }
         public void Execute(Graphics g)
         {
+            object XValue = VariableManager.CheckVariable(targetX);
+            object YValue = VariableManager.CheckVariable(targetY);
 
+            if (XValue != null && YValue != null)
+            {
+                // Use the variable values for drawing the line
+                if (XValue is int X && YValue is int Y)
+                {
+                    MoveCordinates(g, X, Y);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Invalid Move parameters: {XValue}, {YValue}");
+                }
+            }
+            else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
+            {
+                // Use the constant values for drawing the line
+                MoveCordinates(g, X, Y);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Invalid Move parameters: {targetX}, {targetY}");
+            }
+        }
+
+        private void MoveCordinates(Graphics g, int x, int y)
+        {
             try
             {
-                stateManager.SetCordinates(targetX, targetY);
-                //stateManager.DrawCursor(g,true);
+                stateManager.SetCordinates(x, y);
                 pictureBox.Refresh();
             }
             catch (Exception ex)
