@@ -57,7 +57,6 @@ namespace GPL.Commands
                 Match resetMatch = Regex.Match(CommandItem, @"^reset$");
                 Match fillMatch = Regex.Match(CommandItem, @"^fill\s+(on)(?:\s|$)");
                 Match ColorMatch = Regex.Match(CommandItem, @"^color\s+([\w\s]+)(?:\s|$)");
-                //Match variableAssignmentMatch = Regex.Match(CommandItem, @"^([a-zA-Z][a-zA-Z0-9]*)\s*=\s*(\d+)$");
                 Match variableAssignmentMatch = Regex.Match(CommandItem, @"^\s*[a-zA-Z][a-zA-Z0-9]*\s*=\s*(\d+|[a-zA-Z][a-zA-Z0-9]*\s*[\+\-\*/%]\s*\d+)\s*$");
 
                 if (drawToMatch.Success)
