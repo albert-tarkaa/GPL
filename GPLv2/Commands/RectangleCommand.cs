@@ -7,7 +7,7 @@ namespace GPL.Commands
     /// </summary>
     public class RectangleCommand : ICommand
     {
-        private int targetX, targetY;
+        private readonly string targetX, targetY;
         DrawingSettings stateManager;
 
         /// <summary>
@@ -17,12 +17,8 @@ namespace GPL.Commands
         /// <param name="y">The height of the rectangle.</param>
         /// <param name="cordinatesStateManager">The drawing settings for the rectangle contained in the global object</param>
         /// <exception cref="ArgumentOutOfRangeException">The parameters x,y must be non-negative or zero</exception>
-        public RectangleCommand(int x, int y, DrawingSettings cordinatesStateManager)
+        public RectangleCommand(string x, string y, DrawingSettings cordinatesStateManager)
         {
-            if (x <= 0 || y <= 0)
-            {
-                throw new ArgumentOutOfRangeException("x and y must be non-negative or zero");
-            }
             targetX = x;
             targetY = y;
             this.stateManager = cordinatesStateManager;
@@ -35,24 +31,47 @@ namespace GPL.Commands
         /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
         public void Execute(Graphics g)
         {
+            object XValue = VariableManager.CheckVariable(targetX);
+            object YValue = VariableManager.CheckVariable(targetY);
 
+            if (XValue != null && YValue != null)
+            {
+                // Use the variable values for drawing the rectangle
+                int X = ConvertToInteger.Convert(XValue, "X");
+                int Y = ConvertToInteger.Convert(YValue, "Y");
+
+                DrawRectangle(g, X, Y);
+            }
+            else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
+            {
+                // Use the constant values for drawing the rectangle
+                DrawRectangle(g, X, Y);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Invalid Rectangle parameters: {targetX}, {targetY}");
+            }
+        }
+
+        private void DrawRectangle(Graphics g, int x, int y)
+        {
             try
             {
                 if (stateManager.fill)
                 {
                     using (var brush = new SolidBrush(stateManager.color))
                     {
-                        g.FillRectangle(brush, stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                        g.FillRectangle(brush, stateManager.GlobalX, stateManager.GlobalY, x, y);
                     }
                 }
                 else
                 {
-                    g.DrawRectangle(new Pen(stateManager.color), stateManager.GlobalX, stateManager.GlobalY, targetX, targetY);
+                    g.DrawRectangle(new Pen(stateManager.color), stateManager.GlobalX, stateManager.GlobalY, x, y);
                 }
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Error executing 'Rect' command: {ex.Message}");
+                throw new InvalidOperationException($"Error executing 'DrawTo' command: {ex.Message}");
             }
         }
 

@@ -4,7 +4,7 @@ namespace GPL.Commands
 {
     public class TriangleCommand : ICommand
     {
-        private int targetX, targetY;
+        private readonly string targetX, targetY;
         DrawingSettings stateManager;
 
         /// <summary>
@@ -13,12 +13,8 @@ namespace GPL.Commands
         /// <param name="x">The sides of the triangle.</param>
         /// <param name="cordinatesStateManager">The drawing settings for the triangle contained in the global object</param>
         /// <exception cref="ArgumentOutOfRangeException">The parameters x must be non-negative or zero</exception>
-        public TriangleCommand(int x, int y, DrawingSettings cordinatesStateManager)
+        public TriangleCommand(string x, string y, DrawingSettings cordinatesStateManager)
         {
-            if (x <= 0 || y <= 0)
-            {
-                throw new ArgumentOutOfRangeException("x must be non-negative or zero");
-            }
             targetX = x;
             targetY = y;
             this.stateManager = cordinatesStateManager;
@@ -32,30 +28,46 @@ namespace GPL.Commands
         /// <exception cref="InvalidOperationException">Thrown if an error occurs during the execution of the command.</exception>
         public void Execute(Graphics g)
         {
-            try
+            object XValue = VariableManager.CheckVariable(targetX);
+            object YValue = VariableManager.CheckVariable(targetY);
+
+            if (XValue != null && YValue != null)
             {
-                Point[] triangleVertices = {
-        new Point(stateManager.GlobalY, stateManager.GlobalX),
-        new Point(stateManager.GlobalX + targetX, stateManager.GlobalY),
-        new Point(stateManager.GlobalX + targetX / 2, stateManager.GlobalY - (int)(Math.Sqrt(3) / 2 * targetX))
+                // Use the variable values for drawing the Triangle
+                int X = ConvertToInteger.Convert(XValue, "X");
+                int Y = ConvertToInteger.Convert(YValue, "Y");
+
+                DrawTriangle(g, X, Y);
+            }
+            else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
+            {
+                // Use the constant values for drawing the Triangle
+                DrawTriangle(g, X, Y);
+            }
+            else
+            {
+                throw new InvalidOperationException($"Invalid Trig parameters: {targetX}, {targetY}");
+            }
+        }
+
+        private void DrawTriangle(Graphics g, int x, int y)
+        {
+            Point[] triangleVertices = {
+            new Point(stateManager.GlobalY, stateManager.GlobalX),
+            new Point(stateManager.GlobalX + x, stateManager.GlobalY),
+            new Point(stateManager.GlobalX + x / 2, stateManager.GlobalY - (int)(Math.Sqrt(3) / 2 * x))
         };
 
-                if (stateManager.fill)
-                {
-                    SolidBrush brush = new SolidBrush(stateManager.color);
-                    g.FillPolygon(brush, triangleVertices);
-                }
-                else
-                {
-                    Pen pen = new(stateManager.color, 1);
-                    g.DrawPolygon(pen, triangleVertices);
-                }
-            }
-            catch (Exception ex)
+            if (stateManager.fill)
             {
-                throw new InvalidOperationException($"Error executing 'Trig' command: {ex.Message}");
+                SolidBrush brush = new SolidBrush(stateManager.color);
+                g.FillPolygon(brush, triangleVertices);
             }
-
+            else
+            {
+                Pen pen = new(stateManager.color, 1);
+                g.DrawPolygon(pen, triangleVertices);
+            }
         }
 
     }

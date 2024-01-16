@@ -25,14 +25,10 @@ namespace GPL.Commands
             if (XValue != null && YValue != null)
             {
                 // Use the variable values for drawing the line
-                if (XValue is int X && YValue is int Y)
-                {
-                    MoveCordinates(g, X, Y);
-                }
-                else
-                {
-                    throw new InvalidOperationException($"Invalid Move parameters: {XValue}, {YValue}");
-                }
+                int X = ConvertToInteger.Convert(XValue, "X");
+                int Y = ConvertToInteger.Convert(YValue, "Y");
+
+                MoveCordinates(g, X, Y);
             }
             else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
             {
