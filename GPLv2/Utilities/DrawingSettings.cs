@@ -1,9 +1,7 @@
-﻿using System.Drawing;
-
-namespace GPL.Utilities
+﻿namespace GPL.Utilities
 {
     /// <summary>
-    /// Manages drawing settings and variables.
+    /// Represents the settings for drawing operations.
     /// </summary>
     public class DrawingSettings
     {
@@ -17,10 +15,9 @@ namespace GPL.Utilities
         /// </summary>
         public int GlobalY { get; private set; }
 
-        private Bitmap canvas;
-
+        Bitmap canvas;
         /// <summary>
-        /// Gets or sets the drawing canvas.
+        /// Gets or sets the canvas for drawing operations.
         /// </summary>
         public Bitmap Canvas
         {
@@ -29,35 +26,30 @@ namespace GPL.Utilities
         }
 
         /// <summary>
-        /// Gets or sets the drawing color.
+        /// Gets or sets the color for drawing operations.
         /// </summary>
-        public Color color { get; set; }
+        public Color color;
 
         /// <summary>
-        /// Gets or sets the cursor color.
+        /// Gets or sets the color of the cursor.
         /// </summary>
-        public Color cursorColor { get; set; }
+        public Color cursorColor;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to fill shapes.
+        /// Gets or sets a value indicating whether to fill shapes during drawing.
         /// </summary>
-        public bool fill { get; set; }
+        public bool fill;
 
         /// <summary>
-        /// Gets the dictionary of variables.
-        /// </summary>
-        public Dictionary<string, int> Variables { get; } = new Dictionary<string, int>();
-
-        /// <summary>
-        /// Default constructor for DrawingSettings.
+        /// Initializes a new instance of the <see cref="DrawingSettings"/> class.
         /// </summary>
         public DrawingSettings() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawingSettings"/> class with a specified canvas.
         /// </summary>
-        /// <param name="canvas">The drawing canvas.</param>
-        public DrawingSettings(Bitmap canvas)
+        /// <param name="Canvas">The canvas for drawing operations.</param>
+        public DrawingSettings(Bitmap Canvas)
         {
             GlobalX = 15;
             GlobalY = 15;
@@ -66,29 +58,32 @@ namespace GPL.Utilities
             cursorColor = Color.Red;
             fill = false;
 
-            using (Graphics g = Graphics.FromImage(Canvas))
+            using (Graphics g = Graphics.FromImage(canvas))
             {
                 DrawCursor(g, true);
             }
+            // DrawCursor(canvas, true);
         }
 
         /// <summary>
-        /// Sets the coordinates of the cursor.
+        /// Sets the coordinates of the drawing cursor.
         /// </summary>
         /// <param name="x">The X coordinate.</param>
         /// <param name="y">The Y coordinate.</param>
-        public void SetCoordinates(int x, int y)
+        public void SetCordinates(int x, int y)
         {
             try
             {
                 int width = 5;
                 Brush backgroundBrush;
-                using (Graphics g = Graphics.FromImage(Canvas))
+                using (Graphics g = Graphics.FromImage(canvas))
                 {
+
                     backgroundBrush = new SolidBrush(Color.Transparent);
                     g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
 
-                    backgroundBrush = new SolidBrush(CursorColor);
+
+                    backgroundBrush = new SolidBrush(cursorColor);
                     g.FillEllipse(backgroundBrush, x, y, width, width);
                     GlobalX = x;
                     GlobalY = y;
@@ -96,32 +91,32 @@ namespace GPL.Utilities
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Error in SetCoordinates method.", ex);
+                throw new InvalidOperationException("Error in SetCordinates method.", ex);
             }
         }
 
         /// <summary>
-        /// Sets the fill option for shapes.
+        /// Sets the fill mode for drawing shapes.
         /// </summary>
         public void SetFill()
         {
-            Fill = true;
+            fill = true;
         }
 
         /// <summary>
-        /// Sets the drawing color.
+        /// Sets the color for drawing operations.
         /// </summary>
         /// <param name="colour">The color to set.</param>
         public void SetColor(Color colour)
         {
-            Color = colour;
+            color = colour;
         }
 
         /// <summary>
         /// Draws the cursor on the canvas.
         /// </summary>
-        /// <param name="g">The graphics object.</param>
-        /// <param name="clearCanvas">A value indicating whether to clear the canvas.</param>
+        /// <param name="g">The graphics object for drawing.</param>
+        /// <param name="clearCanvas">A flag indicating whether to clear the canvas before drawing the cursor.</param>
         public void DrawCursor(Graphics g, bool clearCanvas)
         {
             try
@@ -134,7 +129,7 @@ namespace GPL.Utilities
                 //    g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
                 //}
 
-                backgroundBrush = new SolidBrush(CursorColor);
+                backgroundBrush = new SolidBrush(cursorColor);
                 g.FillEllipse(backgroundBrush, GlobalX, GlobalY, width, width);
             }
             catch (Exception ex)
