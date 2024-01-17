@@ -48,15 +48,15 @@ namespace GPL.Commands
             try
             {
                 // Match with coordinates or variable
-                Match drawToMatch = Regex.Match(CommandItem, @"drawto\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
-                Match moveToMatch = Regex.Match(CommandItem, @"moveto\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
-                Match rectMatch = Regex.Match(CommandItem, @"^rect\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
-                Match trigMatch = Regex.Match(CommandItem, @"^trig\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
-                Match circleMatch = Regex.Match(CommandItem, @"^circle\s([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
-                Match clearMatch = Regex.Match(CommandItem, @"^clear$");
-                Match resetMatch = Regex.Match(CommandItem, @"^reset$");
-                Match fillMatch = Regex.Match(CommandItem, @"^fill\s+(on)(?:\s|$)");
-                Match ColorMatch = Regex.Match(CommandItem, @"^color\s+([\w\s]+)(?:\s|$)");
+                Match drawToMatch = Regex.Match(CommandItem.Trim(), @"drawto\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
+                Match moveToMatch = Regex.Match(CommandItem.Trim(), @"moveto\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
+                Match rectMatch = Regex.Match(CommandItem.Trim(), @"^rect\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
+                Match trigMatch = Regex.Match(CommandItem.Trim(), @"^trig\s*([a-zA-Z0-9]+),\s*(\w+|\d+)");
+                Match circleMatch = Regex.Match(CommandItem.Trim(), @"^circle\s([a-zA-Z][a-zA-Z0-9]*|\d+)(?:\s|$)");
+                Match clearMatch = Regex.Match(CommandItem.Trim(), @"^clear$");
+                Match resetMatch = Regex.Match(CommandItem.Trim(), @"^reset$");
+                Match fillMatch = Regex.Match(CommandItem.Trim(), @"^fill\s+(on)(?:\s|$)");
+                Match ColorMatch = Regex.Match(CommandItem.Trim(), @"^color\s+([\w\s]+)(?:\s|$)");
                 Match variableAssignmentMatch = Regex.Match(CommandItem, @"^\s*[a-zA-Z][a-zA-Z0-9]*\s*=\s*(\d+|[a-zA-Z][a-zA-Z0-9]*\s*[\+\-\*/%]\s*\d+)\s*$");
 
                 if (drawToMatch.Success)
