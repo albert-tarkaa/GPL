@@ -41,6 +41,21 @@
         public bool fill;
 
         /// <summary>
+        /// Gets or sets a value indicating a While loop is on or off.
+        /// </summary>
+        public bool whileLoopFlag;
+
+        /// <summary>
+        /// Gets or sets a value indicating a nested While loop.
+        /// </summary>
+        public int WhileLoopCounter { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating a loop counter.
+        /// </summary>
+        public int LoopCounter { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="DrawingSettings"/> class.
         /// </summary>
         public DrawingSettings() { }
@@ -57,12 +72,13 @@
             color = Color.Black;
             cursorColor = Color.Red;
             fill = false;
-
             using (Graphics g = Graphics.FromImage(canvas))
             {
                 DrawCursor(g, true);
             }
             // DrawCursor(canvas, true);
+            WhileLoopCounter = 0;
+            LoopCounter = 0;
         }
 
         /// <summary>
@@ -101,6 +117,33 @@
         public void SetFill()
         {
             fill = true;
+        }
+
+        public void SetWhileLoopFlag(bool status)
+        {
+            whileLoopFlag = status;
+        }
+
+
+        public void IncrementLoopCounter()
+        {
+            LoopCounter++;
+        }
+
+        public void DecrementLoopCounter()
+        {
+            LoopCounter--;
+        }
+
+
+        public void IncrementWhileLoopCounter()
+        {
+            WhileLoopCounter++;
+        }
+
+        public void DecrementWhileLoopCounter()
+        {
+            WhileLoopCounter--;
         }
 
         /// <summary>
