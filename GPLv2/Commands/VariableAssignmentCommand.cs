@@ -19,6 +19,9 @@ namespace GPL.Commands
         {
             this.commandItem = commanditem;
             this.stateManager = cordinatesStateManager;
+
+            if (!stateManager.whileLoopFlag) 
+                   ProcessVariableAssignment(commandItem);
         }
 
         /// <summary>
