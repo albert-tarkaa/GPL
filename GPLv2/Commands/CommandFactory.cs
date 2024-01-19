@@ -13,6 +13,7 @@ namespace GPL.Commands
         private readonly DrawingSettings stateManager;
         public CommandParser CommandParser { get; }
         private readonly Bitmap canvas;
+        private readonly Dictionary<int, string> syntaxErrors = new Dictionary<int, string>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandFactory"/> class.
@@ -44,6 +45,8 @@ namespace GPL.Commands
             {
                 throw new ArgumentNullException(nameof(CommandItem), $"'{nameof(CommandItem)}' cannot be null or empty.");
             }
+
+            CommandItem = CommandItem.Trim().ToLower();
 
             try
             {
@@ -81,7 +84,6 @@ namespace GPL.Commands
                     {
                         var targetX = Regex.Match(CommandItem, @"moveto\s(\w+|\d+),\s?(\w+|\d+)").Groups[1].Value;
                         var targetY = Regex.Match(CommandItem, @"moveto\s(\w+|\d+),\s?(\w+|\d+)").Groups[2].Value;
-                        // ErrorHandlers.ErrorHandler(targetX, targetY, new ArgumentOutOfRangeException("paramters cannot be negative or zero."));
                         return new MoveTo(targetX, targetY, stateManager, canvas, GPLPanel);
                     }
                     catch (Exception ex)
@@ -186,7 +188,7 @@ namespace GPL.Commands
                 {
                     try
                     {
-                        return new VariableAssignmentCommand(CommandItem,stateManager);
+                        return new VariableAssignmentCommand(CommandItem, stateManager);
                     }
                     catch (Exception ex)
                     {
@@ -212,5 +214,7 @@ namespace GPL.Commands
             var command = CreateCommand(commandText);
             parser.AddCommand(command);
         }
+
+
     }
 }
