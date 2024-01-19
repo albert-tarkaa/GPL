@@ -36,7 +36,7 @@ namespace GPL.Commands
             try
             {
                 stateManager.SetFill();
-                pictureBox.Refresh();
+                //pictureBox.Refresh();
             }
             catch (Exception ex)
             {

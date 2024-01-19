@@ -43,12 +43,14 @@ namespace GPL.Commands
         {
             try
             {
+
+                ErrorHandlers.ErrorHandler(x, y);
                 stateManager.SetCordinates(x, y);
-                pictureBox.Refresh();
+                //pictureBox.Refresh();
             }
-            catch (Exception ex)
+            catch (InvalidOperationException ex)
             {
-                throw new InvalidOperationException($"Error executing 'MoveTo' command: {ex.Message}");
+                throw new (ex.Message);
             }
         }
 

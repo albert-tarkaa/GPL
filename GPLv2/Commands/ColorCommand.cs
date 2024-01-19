@@ -39,7 +39,7 @@ namespace GPL.Commands
             try
             {
                 stateManager.SetColor(color);
-                pictureBox.Refresh();
+                //pictureBox.Refresh();
             }
             catch (Exception ex)
             {
