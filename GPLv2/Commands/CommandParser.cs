@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GPL.Utilities;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace GPL.Commands
@@ -28,12 +29,14 @@ namespace GPL.Commands
         /// <param name="g">The graphics context for command execution.</param>
         public void ExecuteCommands(Graphics g)
         {
+            DrawingSettings stateManager = new DrawingSettings();
             try
             {
                 if (Commands != null && Commands.Count > 0)
                 {
                     foreach (var command in Commands)
                     {
+                        stateManager.IncrementLineCounter();
                         command.Execute(g);
                     }
                     Commands.Clear();
@@ -41,8 +44,9 @@ namespace GPL.Commands
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while executing commands: {ex.Message}");
+                throw new FormatException($"{ex.Message}");
             }
         }
+
     }
 }
