@@ -34,36 +34,46 @@ namespace GPL
 
 
                 string inputCommands = GPLParser.Text.ToLower().Trim();
-                string[] commands = inputCommands.Split(new char[] { '\n', '\v', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] commands = inputCommands.Split(new char[] { '\n', '\v', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-
-                int endwhileCount = commands.Count(command => command.Trim().ToLower() == "endwhile");
 
                 List<string> whileLoopCommands = new List<string>();
+                List<string> ifBlockCommands = new List<string>();
+                List<string> methodCommands = new List<string>();
 
                 foreach (string commandText in commands)
                 {
+                    errorLine++;
+                    //ENDWHILE
                     if (globalCordinates.whileLoopFlag)
                     {
-                        // Check for the end of the while loop
                         if (commandText.Trim().ToLower() == "endwhile")
                         {
-                            if (endwhileCount == 1)
-                            {
-                                globalCordinates.SetWhileLoopFlag(false);
-                                ProcessWhileLoop(whileLoopCommands);
-                            }
+                            globalCordinates.SetWhileLoopFlag(false);
+                            ProcessWhileLoop(whileLoopCommands);
                             continue;
                         }
 
                         whileLoopCommands.Add(commandText);
-                       
+                    }
+                    //ENDIF
+                    else if (globalCordinates.ifBlockFlag)
+                    {
+                        if (commandText.Trim().ToLower() == "endif")
+                        {
+                            globalCordinates.SetIfBlockFlag(false);
+                            ProcessIfBlock(ifBlockCommands);
+                            continue;
+                        }
+
+                        ifBlockCommands.Add(commandText);
                     }
                     else
                     {
+
+                        //START WHILE
                         if (commandText.Trim().StartsWith("while"))
                         {
-                            // Set the while loop flag and initialize the while loop command list
                             if (globalCordinates.LoopCounter < 1)
                             {
                                 globalCordinates.SetWhileLoopFlag(true);
@@ -73,14 +83,27 @@ namespace GPL
                                 };
                             }
                         }
+                        //START IF
+                        else if (commandText.Trim().StartsWith("if"))
+                        {
+                            globalCordinates.SetIfBlockFlag(true);
+                            ifBlockCommands = new List<string>
+                                {
+                                    commandText.Trim()
+                                };
+
+                        }
                         else
                         {
-                            // Process non-while loop commands
+                            // Process non-while and non-if loop and non-method commands
                             var commandFactory = new CommandFactory(commandText.Trim(), GPLPanel, globalCordinates, canvas);
                             commandFactory.AddCommandFromText(commandText, CommandParser);
+
                         }
+
                     }
                 }
+
                 using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
                 {
                     CommandParser.ExecuteCommands(canvasGraphics);
@@ -93,9 +116,8 @@ namespace GPL
                     PointF errorPosition = new PointF(10, 15);
                     Font errorFont = new Font("Times New Roman", 11, FontStyle.Regular);
                     Brush errorBrush = new SolidBrush(Color.Red);
-                    canvasGraphics.DrawString(ex.Message + string.Format(" at line {0}", errorLine), errorFont, errorBrush, errorPosition);
+                    canvasGraphics.DrawString(ex.Message + string.Format(" at line {0}", globalCordinates.LineCounter), errorFont, errorBrush, errorPosition);
                 }
-
             }
         }
         private void textBoxParser_KeyDown(object sender, KeyEventArgs e)
@@ -170,6 +192,7 @@ namespace GPL
             });
         }
 
+
         private void ProcessWhileLoop(List<string> whileLoopCommands)
         {
             if (whileLoopCommands.Count < 2)
@@ -190,89 +213,90 @@ namespace GPL
             }
         }
 
+        private void ProcessIfBlock(List<string> ifBlockCommands)
+        {
+            if (ifBlockCommands.Count < 2)
+            {
+                throw new InvalidOperationException("Invalid IF loop structure");
+            }
 
-        #region  Discarded code for Nested While Loops
-        //private void ProcessWhileLoop(List<string> whileLoopCommands, int WhileLoopCounter)
-        //{
-        //    if (whileLoopCommands.Count < 2)
-        //    {
-        //        throw new InvalidOperationException("Invalid while loop structure");
-        //    }
+            string whileCondition = ifBlockCommands[0].Trim().Substring("if".Length).Trim();
 
-        //    string whileCondition = whileLoopCommands[0].Trim().Substring("while".Length).Trim();
+            if (LoopConditionManager.EvaluateCondition(whileCondition))
+            {
+                // Execute the body of the while loop
+                foreach (string commandText in ifBlockCommands.Skip(1))
+                {
+                    var commandFactory = new CommandFactory(commandText.Trim(), GPLPanel, globalCordinates, canvas);
+                    commandFactory.AddCommandFromText(commandText, CommandParser);
+                }
+            }
+        }
 
-        //    while (LoopConditionManager.EvaluateCondition(whileCondition) && WhileLoopCounter > 0)
-        //    {
-        //        // Execute the body of the while loop
-        //        foreach (string commandText in whileLoopCommands.Skip(1))
-        //        {
-        //            var commandFactory = new CommandFactory(commandText.Trim(), GPLPanel, globalCordinates, canvas);
-        //            commandFactory.AddCommandFromText(commandText, CommandParser);
-        //        }
 
-        //        // Decrement the WhileLoopCounter for the next iteration
-        //        WhileLoopCounter--;
+        private async void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = true;
 
-        //        // Recursively call the ProcessWhileLoop method
-        //        ProcessWhileLoop(whileLoopCommands, WhileLoopCounter);
-        //    }
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string[] filePaths = openFileDialog.FileNames;
 
-        //    // Reset the WhileLoopCounter after the while loop exits
-        //    globalCordinates.WhileLoopCounter = 0;
-        //}
+                // Use separate tasks for concurrent execution
+                Task task1 = ExecuteCommandsFromFileAsync(filePaths[0]);
+                Task task2 = ExecuteCommandsFromFileAsync(filePaths[1]);
 
-        //private void ProcessWhileLoop(List<string> whileLoopCommands, int outerWhileLoopCounter)
-        //{
-        //    LoopsIndexTracker indexTracker = new LoopsIndexTracker();
-        //    List<int> whileIndices = indexTracker.GetWhileIndices(whileLoopCommands);
-        //    if (whileLoopCommands.Count < 2)
-        //    {
-        //        throw new InvalidOperationException("Invalid while loop structure");
-        //    }
+                await Task.WhenAll(task1, task2);
 
-        //    string whileCondition = whileLoopCommands[0].Trim().Substring("while".Length).Trim();
+            }
+        }
 
-        //    while (LoopConditionManager.EvaluateCondition(whileCondition) && outerWhileLoopCounter > 0)
-        //    {
-        //        // Execute the body of the while loop
-        //        foreach (string commandText in whileLoopCommands)
-        //        {
-        //            if (commandText.Contains("while"))
-        //            {
-        //                continue;
-        //            }
-        //            var commandFactory = new CommandFactory(commandText.Trim(), GPLPanel, globalCordinates, canvas);
-        //            commandFactory.AddCommandFromText(commandText, CommandParser);
-        //        }
+        private async Task ExecuteCommandsFromFileAsync(string filePath)
+        {
+            try
+            {
+                string fileContents = await Task.Run(() => File.ReadAllText(filePath));
 
-        //        // Increment the WhileLoopCounter for the next iteration of the outer loop
-        //        outerWhileLoopCounter--;
+                // Split file contents into commands based on newlines
+                string[] lines = fileContents.Split(new char[] { '\n', '\v', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
-        //        // Introduce a nestedWhileLoopCounter for the nested loop
-        //        int nestedWhileLoopCounter = globalCordinates.WhileLoopCounter;
+                // Parse and execute commands from each line
+                CommandParser commandParser = new CommandParser();
 
-        //        while (LoopConditionManager.EvaluateCondition(whileCondition) && nestedWhileLoopCounter > 0)
-        //        {
-        //            // Execute the body of the nested while loop
-        //            foreach (string commandText in whileLoopCommands)
-        //            {
-        //                if (commandText.Contains("while"))
-        //                {
-        //                    continue;
-        //                }
-        //                var commandFactory = new CommandFactory(commandText.Trim(), GPLPanel, globalCordinates, canvas);
-        //                commandFactory.AddCommandFromText(commandText, CommandParser);
-        //            }
+                foreach (string line in lines)
+                {
+                    if (string.IsNullOrEmpty(line))
+                        continue;
 
-        //            // Decrement the nestedWhileLoopCounter for the next iteration of the nested loop
-        //            nestedWhileLoopCounter--;
-        //        }
-        //    }
+                    var commandFactory = new CommandFactory(line.ToLower().Trim(), GPLPanel, globalCordinates, canvas);
+                    commandFactory.AddCommandFromText(line, commandParser);
+                }
 
-        //    // Reset the WhileLoopCounter after the while loop exits
-        //    globalCordinates.WhileLoopCounter = 0;
-        //}
+                await Task.Run(() =>
+                {
+                    using (Graphics canvasGraphics = GPLPanel.CreateGraphics())
+                    {
+                        // Ensure that access to shared resources is synchronized
+                        lock (canvasGraphics)
+                        {
+                            GPLPanel.Invoke((MethodInvoker)delegate
+                            {
+                                commandParser.ExecuteCommands(canvasGraphics);
+                            });
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while executing commands from file '{filePath}': {ex.Message}");
+            }
+        }
 
-        #endregion
+
+
     }
 }
