@@ -46,6 +46,11 @@
         public bool whileLoopFlag;
 
         /// <summary>
+        /// Gets or sets a value indicating a IF loop is on or off.
+        /// </summary>
+        public bool ifBlockFlag;
+
+        /// <summary>
         /// Gets or sets a value indicating a nested While loop.
         /// </summary>
         public int WhileLoopCounter { get; set; }
@@ -53,7 +58,11 @@
         /// <summary>
         /// Gets or sets a value indicating a loop counter.
         /// </summary>
+        public int LineCounter { get; set; }
+
         public int LoopCounter { get; set; }
+
+        public bool ifMethodFlag { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DrawingSettings"/> class.
@@ -79,6 +88,7 @@
             // DrawCursor(canvas, true);
             WhileLoopCounter = 0;
             LoopCounter = 0;
+            LineCounter = 1;
         }
 
         /// <summary>
@@ -124,17 +134,30 @@
             whileLoopFlag = status;
         }
 
-
-        public void IncrementLoopCounter()
+        public void SetIfBlockFlag(bool status)
         {
-            LoopCounter++;
+            ifBlockFlag = status;
+        }
+
+        public void SetMethodFlag(bool status)
+        {
+            ifMethodFlag = status;
+        }
+
+        public void IncrementLineCounter()
+        {
+            LineCounter++;
         }
 
         public void DecrementLoopCounter()
         {
-            LoopCounter--;
+            LineCounter--;
         }
 
+        public void IncrementLoopCounter()
+        {
+            LineCounter++;
+        }
 
         public void IncrementWhileLoopCounter()
         {
