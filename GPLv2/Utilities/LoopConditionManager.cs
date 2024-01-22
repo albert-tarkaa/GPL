@@ -2,8 +2,17 @@
 
 namespace GPL.Utilities
 {
+    /// <summary>
+    /// Manages loop conditions for loops.
+    /// </summary>
     public class LoopConditionManager
     {
+        /// <summary>
+        /// Processes the specified condition and evaluates the result.
+        /// </summary>
+        /// <param name="condition">The condition to process.</param>
+        /// <returns>True if the condition is satisfied; otherwise, false.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the condition is invalid or contains unsupported operators.</exception>
         public static bool Process(string condition)
         {
             // Use a regex pattern to extract operands and operator
@@ -37,6 +46,12 @@ namespace GPL.Utilities
             throw new InvalidOperationException("Invalid while loop condition");
         }
 
+        /// <summary>
+        /// Processes the specified operand, either extracting a constant value or checking a variable value.
+        /// </summary>
+        /// <param name="operand">The operand to process.</param>
+        /// <returns>The processed operand value.</returns>
+        /// <exception cref="InvalidOperationException">Thrown when the operand is invalid.</exception>
         private static int ProcessOperand(string operand)
         {
             if (int.TryParse(operand, out int operandValue))
@@ -55,5 +70,4 @@ namespace GPL.Utilities
             }
         }
     }
-
 }
