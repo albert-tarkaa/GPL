@@ -20,8 +20,8 @@ namespace GPL.Commands
             this.commandItem = commanditem;
             this.stateManager = cordinatesStateManager;
 
-            if (!stateManager.whileLoopFlag) 
-                   ProcessVariableAssignment(commandItem);
+            if (!stateManager.whileLoopFlag)
+                ProcessVariableAssignment(commandItem);
         }
 
         /// <summary>
@@ -89,57 +89,78 @@ namespace GPL.Commands
                 // If there are two parts, assume it's a valid manipulation expression
                 string operatorSymbol = manipulationExpression.Replace(manipulationParts[0], "").Replace(manipulationParts[1], "").Trim();
 
-                int value;
-                if (int.TryParse(manipulationParts[1], out value))
-                {
-                    // Perform the manipulation based on the operator
-                    object variableValue = VariableManager.CheckVariable(variableName);
-                    if (variableValue != null)
-                    {
-                        switch (operatorSymbol)
-                        {
-                            case "+":
-                                VariableManager.AssignVariable(variableName, (int)variableValue + value);
-                                break;
-                            case "-":
-                                VariableManager.AssignVariable(variableName, (int)variableValue - value);
-                                break;
-                            case "*":
-                                VariableManager.AssignVariable(variableName, (int)variableValue * value);
-                                break;
-                            case "/":
-                                if (value != 0)
-                                {
-                                    VariableManager.AssignVariable(variableName, (int)variableValue / value);
-                                }
-                                else
-                                {
-                                    throw new InvalidOperationException("Division by zero");
-                                }
-                                break;
-                            case "%":
-                                if (value != 0)
-                                {
-                                    VariableManager.AssignVariable(variableName, (int)variableValue % value);
-                                }
-                                else
-                                {
-                                    throw new InvalidOperationException("Modulus by zero");
-                                }
-                                break;
+                int leftValue;
+                int rightValue;
 
-                            default:
-                                throw new InvalidOperationException($"Syntax error: Invalid operator in variable manipulation");
-                        }
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException($"Variable '{variableName}' not declared before manipulation");
-                    }
+                // Check if the left-hand side is a constant integer, if its not then it is a variable
+                if (int.TryParse(manipulationParts[0], out leftValue))
+                {
                 }
                 else
                 {
-                    throw new InvalidOperationException($"Syntax error: Invalid value in variable manipulation");
+                    object leftVariableValue = VariableManager.CheckVariable(manipulationParts[0].Trim().ToLower());
+                    if (leftVariableValue != null && leftVariableValue is int)
+                    {
+                        leftValue = (int)leftVariableValue;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Variable '{manipulationParts[0]}' not declared or not an integer before manipulation");
+                    }
+                }
+
+
+                if (int.TryParse(manipulationParts[1], out rightValue))
+                {
+                }
+                else
+                {
+                    object rightVariableValue = VariableManager.CheckVariable(manipulationParts[1].Trim().ToLower());
+                    if (rightVariableValue != null && rightVariableValue is int)
+                    {
+                        rightValue = (int)rightVariableValue;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"Variable '{manipulationParts[1]}' not declared or not an integer before manipulation");
+                    }
+                }
+
+                // Perform the manipulation based on the operator
+                switch (operatorSymbol)
+                {
+                    case "+":
+                        VariableManager.AssignVariable(variableName, leftValue + rightValue);
+                        break;
+                    case "-":
+                        VariableManager.AssignVariable(variableName, leftValue - rightValue);
+                        break;
+                    case "*":
+                        VariableManager.AssignVariable(variableName, leftValue * rightValue);
+                        break;
+                    case "/":
+                        if (rightValue != 0)
+                        {
+                            VariableManager.AssignVariable(variableName, leftValue / rightValue);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Division by zero");
+                        }
+                        break;
+                    case "%":
+                        if (rightValue != 0)
+                        {
+                            VariableManager.AssignVariable(variableName, leftValue % rightValue);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException("Modulus by zero");
+                        }
+                        break;
+
+                    default:
+                        throw new InvalidOperationException($"Syntax error: Invalid operator in variable manipulation");
                 }
             }
             else
@@ -147,6 +168,7 @@ namespace GPL.Commands
                 throw new InvalidOperationException($"Syntax error: Invalid variable manipulation expression");
             }
         }
+
         private bool IsValidManipulationString(string value)
         {
             return Regex.IsMatch(value, @"^\s*[a-zA-Z][a-zA-Z0-9]*\s*[\+\-\*/%]\s*\d+\s*$");
