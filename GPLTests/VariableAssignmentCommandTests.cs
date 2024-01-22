@@ -4,29 +4,14 @@ using System.Drawing;
 
 namespace GPL.Commands.Tests
 {
-    public class VariableDeclaration
-    {
-
-        public string variableName { get; set; }
-        public int variableValue { get; set; }
-
-        public VariableDeclaration(string VariableName, int VariableValue)
-        {
-            variableName = VariableName;
-            variableValue = VariableValue;
-        }
-        public string GetCommandItem()
-        {
-            return $"{variableName}={variableValue}";
-        }
-
-    }
+   
     /// <summary>
     /// Test class for the VariableAssignmentCommand class.
     /// </summary>
     [TestClass]
     public class VariableAssignmentCommandTests
     {
+
         /// <summary>
         /// Tests the basic variable assignment functionality of the Execute method.
         /// </summary>
@@ -121,13 +106,11 @@ namespace GPL.Commands.Tests
         public void Execute_UndeclaredVariable_ThrowsException()
         {
             // Arrange
+
             var stateManagerMock = new Mock<DrawingSettings>();
 
-            // var command1 = new VariableAssignmentCommand("num1 = 25", stateManagerMock.Object);
-            // command1.Execute(null);
-
             // Act and Assert
-            var command2 = new VariableAssignmentCommand("num2 = num1 + 10", stateManagerMock.Object);
+            var command2 = new VariableAssignmentCommand("num7 = num8 + 10", stateManagerMock.Object);
             command2.Execute(null);
         }
 
