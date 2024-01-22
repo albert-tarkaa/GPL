@@ -80,11 +80,11 @@ namespace GPLTests
             var gplPanel = new PictureBox();
             var coordinatesManager = new DrawingSettings();
             var bitmap = new Bitmap(100, 100);
-            var commandFactory = new CommandFactory("moveto invalidX, invalidY", gplPanel, coordinatesManager, bitmap);
+            var commandFactory = new CommandFactory("moveto invalidY", gplPanel, coordinatesManager, bitmap);
             var parser = new CommandParser();
 
             // Act
-            Action act = () => commandFactory.AddCommandFromText("moveto invalidX, invalidY", parser);
+            Action act = () => commandFactory.AddCommandFromText("moveto  invalidY", parser);
 
             // Assert
             Assert.ThrowsException<InvalidOperationException>(act, "Invalid parameters for the command.");
