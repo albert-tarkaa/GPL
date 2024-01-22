@@ -33,6 +33,16 @@ namespace GPL.Utilities
         /// <param name="value">The value to set.</param>
         public static void AssignVariable(string variableName, object value)
         {
+            if (value is int intValue && intValue <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must be greater than 0.");
+            }
+
+            if (value is string stringValue && string.IsNullOrEmpty(stringValue))
+            {
+                throw new ArgumentException("Value cannot be null or empty.", nameof(value));
+            }
+
             variableState[variableName] = value;
         }
     }
