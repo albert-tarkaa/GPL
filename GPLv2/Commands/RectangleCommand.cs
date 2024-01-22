@@ -16,7 +16,6 @@ namespace GPL.Commands
         /// <param name="x">The width of the rectangle.</param>
         /// <param name="y">The height of the rectangle.</param>
         /// <param name="cordinatesStateManager">The drawing settings for the rectangle contained in the global object</param>
-        /// <exception cref="ArgumentOutOfRangeException">The parameters x,y must be non-negative or zero</exception>
         public RectangleCommand(string x, string y, DrawingSettings cordinatesStateManager)
         {
             targetX = x;
@@ -41,13 +40,17 @@ namespace GPL.Commands
 
                 DrawRectangle(g, X, Y);
             }
+            else if ((XValue == null || YValue == null ))
+            {
+                throw new InvalidOperationException($"Invalid Rectangle parameters");
+            }
             else if (int.TryParse(targetX, out int X) && int.TryParse(targetY, out int Y))
             {
                 DrawRectangle(g, X, Y);
             }
             else
             {
-                throw new InvalidOperationException($"Invalid Rectangle parameters: {targetX}, {targetY}");
+                throw new InvalidOperationException($"Invalid Rectangle parameters");
             }
         }
 
