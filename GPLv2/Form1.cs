@@ -202,7 +202,7 @@ namespace GPL
 
             string whileCondition = whileLoopCommands[0].Trim().Substring("while".Length).Trim();
 
-            while (LoopConditionManager.EvaluateCondition(whileCondition))
+            while (LoopConditionManager.Process(whileCondition))
             {
                 // Execute the body of the while loop
                 foreach (string commandText in whileLoopCommands.Skip(1))
@@ -222,7 +222,7 @@ namespace GPL
 
             string whileCondition = ifBlockCommands[0].Trim().Substring("if".Length).Trim();
 
-            if (LoopConditionManager.EvaluateCondition(whileCondition))
+            if (LoopConditionManager.Process(whileCondition))
             {
                 // Execute the body of the while loop
                 foreach (string commandText in ifBlockCommands.Skip(1))

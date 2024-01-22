@@ -4,7 +4,7 @@ namespace GPL.Utilities
 {
     public class LoopConditionManager
     {
-        public static bool EvaluateCondition(string condition)
+        public static bool Process(string condition)
         {
             // Use a regex pattern to extract operands and operator
             Match match = Regex.Match(condition, @"^\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\s*([<>=!]+)\s*([a-zA-Z][a-zA-Z0-9]*|[0-9]+)\s*$");
