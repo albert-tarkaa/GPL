@@ -15,7 +15,6 @@ namespace GPL.Commands
         /// </summary>
         /// <param name="radiusParameter">The radius of the circle.</param>
         /// <param name="cordinatesStateManager">The drawing settings for the circle contained in the global object</param>
-        /// <exception cref="ArgumentOutOfRangeException">The radius must be non-negative or zero</exception>
         public CircleCommand(string radiusParameter, DrawingSettings cordinatesStateManager)
         {
             this.radiusParameter = radiusParameter;
